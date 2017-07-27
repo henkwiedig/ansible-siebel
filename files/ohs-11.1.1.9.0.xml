@@ -1,0 +1,49 @@
+<results md5_sum="8ac96f0e9fae949361b5f4171f133614">
+  <generated_date in_epoch_ms="1493317653000">2017-04-27 18:27:33</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>20995453</number>
+      <abstract><![CDATA[ORACLE WEBTIER SUITE 11G PATCH SET 7 (11.1.1.9.0)]]></abstract>
+    </bug> 
+    <name>20995453</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=18880473]]></patch_readme> 
+      <patch_details><![CDATA[/download/20995453.html]]></patch_details>
+    </url> 
+    <request_id>18880473</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32626" version="Q1032"><![CDATA[Oracle Fusion Middleware]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="167725" version="11.1.1.9.0"><![CDATA[Oracle Fusion Middleware]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="10120" bugdb_id="1032"><![CDATA[Oracle Fusion Middleware Family]]></product> 
+    <release id="600000000007876" name="11.1.1.9.0" platform_patch_not_required="Y" cc="Y"><![CDATA[FMW 11.1.1.9.0]]></release> 
+    <platform id="226" bugdb_id="226"><![CDATA[Linux x86-64]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>2112186868</size>
+    <files> 
+      <file> 
+        <name>p20995453_111190_Linux-x86-64.zip</name>
+        <size>2112186868</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p20995453_111190_Linux-x86-64.zip?aru=18880473&patch_file=p20995453_111190_Linux-x86-64.zip]]></download_url> 
+        <digest type="MD5">981FB3F8BF3BBF701C6CDEEDC237F03C</digest> 
+        <digest type="SHA-1">62442CFCEA3D5E9730723BA364511849E6B07650</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1430850943000">2015-05-05 18:35:43</updated_date> 
+    <released_date in_epoch_ms="1430517713000">2015-05-01 22:01:53</released_date> 
+  </patch> 
+</results>

@@ -1,0 +1,158 @@
+---
+# tasks file for oracle-database
+- name: install needed software
+  yum: 
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - xdpyinfo
+    - compat-libcap1
+    - compat-libstdc++-33
+    - sysstat
+    - gcc
+    - gcc-c++
+    - ksh
+    - glibc-devel
+    - libaio-devel
+    - nfs-utils
+    - rpcbind
+
+- name: enable nfs-related services
+  service:
+   name: "{{ item }}"
+   enabled: true
+   state: started
+  with_items:
+  - rpcbind
+  - nfs-lock
+
+- name: mount repository
+  mount:
+    name: "/mnt{{ siebel_repository_path }}"
+    src: "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}:{{ siebel_repository_path }}"
+    fstype: nfs
+    state: mounted
+
+- name: create groups
+  group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - oinstall
+    - dba
+    - oper
+
+- name: create user
+  user:
+    name: "{{ item }}"
+    state: present
+    group: oinstall
+    groups: oinstall,dba,oper
+  with_items:
+    - oracle
+
+- name: set limit_items
+  set_fact:
+    limit_items:  [ 'nproc', 'nproc' , 'nofile', 'nofile' , 'stack' ]
+    limit_types:  [ 'soft' , 'hard'  , 'soft'  , 'hard'   , 'soft' ]
+    limit_values: [ '2047' , '16384' , '4096'  , '65536'  , '10240' ]
+
+- name: set os limits for user
+  pam_limits:
+    domain: oracle
+    limit_item: "{{ item.0 }}"
+    limit_type: "{{ item.1 }}"
+    value: "{{ item.2 }}"
+  with_together:
+    - "{{ limit_items }}"
+    - "{{ limit_types }}"
+    - "{{ limit_values }}"
+
+- name: set sysctl_items
+  set_fact:
+    sysctl_items:  ['fs.suid_dumpable','fs.aio-max-nr','fs.file-max','kernel.shmall','kernel.shmmax','kernel.shmmni','kernel.sem','net.ipv4.ip_local_port_range','net.core.rmem_default','net.core.rmem_max','net.core.wmem_default','net.core.wmem_max' ]
+    sysctl_values:  [ '1','1048576','6815744','2097152','2271385600','4096','250 32000 100 128','9000 65500','262144','4194304','262144','1048586']
+
+- name: set sysctl settings
+  sysctl:
+    name: "{{item.0}}"
+    value: "{{item.1}}"
+    sysctl_set: yes
+    state: present
+    reload: yes
+  with_together:
+    - "{{ sysctl_items }}"
+    - "{{ sysctl_values }}"
+
+- name: set selinux to premissive
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: disable firewall
+  service:
+   name: "{{ item }}"
+   enabled: false
+   state: stopped
+  with_items:
+  - firewalld
+
+- name: create oracle_base
+  file:
+    path: /home/oracle/app/oracle
+    state: directory
+    mode: 0775
+    owner: oracle
+    group: oinstall
+
+- name: create oracle .bash_profile
+  blockinfile:
+    path: /home/oracle/.bash_profile
+    block: |
+      # Oracle Settings
+      TMP=/tmp; export TMP
+      TMPDIR=$TMP; export TMPDIR
+      ORACLE_HOSTNAME=localhost.localdomain; export ORACLE_HOSTNAME
+      ORACLE_UNQNAME=orcl; export ORACLE_UNQNAME
+      ORACLE_BASE=/home/oracle/app/oracle; export ORACLE_BASE
+      ORACLE_HOME=$ORACLE_BASE/product/12.1.0/dbhome_1; export ORACLE_HOME
+      ORACLE_SID=orcl; export ORACLE_SID
+      PATH=/usr/sbin:$PATH; export PATH
+      PATH=$ORACLE_HOME/bin:$PATH; export PATH
+      LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+      CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH
+
+- name: template response file
+  template: 
+    src: "roles/oracle-database/files/oracle-{{oracle_version}}.rsp.j2"
+    dest: "/tmp/oracle-{{oracle_version}}.rsp"
+
+- name: install oracle
+  shell : "source /home/oracle/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/oracle-{{oracle_version}}.rsp"
+  become: true
+  become_user: oracle
+  args:
+    chdir: "/mnt{{ siebel_repository_path }}/oracle-{{ oracle_version }}/unarchive/database"
+    creates: "/home/oracle/app/oracle/product/12.1.0/dbhome_1/oraInst.loc"
+
+- name: run orainstRoot.sh
+  command: "/home/oracle/app/oraInventory/orainstRoot.sh"
+  args:
+    creates: /etc/oraInst.loc
+
+- name: run root.sh
+  command: "/home/oracle/app/oracle/product/12.1.0/dbhome_1/root.sh"
+  args:
+    creates: /etc/oratab
+
+#- name: template response file pwdrsp.properties
+#  template: 
+#    src: "roles/oracle-database/files/oracle-{{oracle_version}}.pwdrsp.properties.j2"
+#    dest: "/tmp/oracle-{{oracle_version}}.pwdrsp.properties"
+
+#- name: run configToolAllCommands
+#  shell: "/home/oracle/app/oracle/product/12.1.0/dbhome_1/cfgtoollogs/configToolAllCommands RESPONSE_FILE=/tmp/oracle-{{oracle_version}}.pwdrsp.properties"
+#  become: true
+#  become_user: oracle
+#
+#

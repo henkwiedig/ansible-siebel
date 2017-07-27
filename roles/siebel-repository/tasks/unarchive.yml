@@ -1,0 +1,12 @@
+- name: create directory
+  file:
+    path: "{{siebel_repository_path}}/{{product}}/unarchive"
+    state: directory
+    mode: 0755
+
+- name: unarchive product
+  unarchive:
+    src: "{{siebel_repository_path}}/{{product}}/download/{{ item.split(';')[0] }}"
+    dest: "{{siebel_repository_path}}/{{product}}/unarchive"
+    remote_src: true
+  with_lines: "xsltproc files/mos-patch-metadata.xslt files/{{product}}.xml"

@@ -1,0 +1,126 @@
+<results md5_sum="9681d351534e8ee3ae9218ddac706a5f">
+  <generated_date in_epoch_ms="1493234803000">2017-04-26 19:26:43</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>17694377</number>
+      <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+    </bug> 
+    <name>17694377</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=17851573]]></patch_readme> 
+      <patch_details><![CDATA[/download/17694377.html]]></patch_details>
+    </url> 
+    <request_id>17851573</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32615" version="Q5"><![CDATA[Oracle Database - Enterprise Edition]]></qpart> 
+        <qpart cid="42353" version="Q790"><![CDATA[Oracle Server - Standard Edition]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="86176" version="12.1.0.2.0"><![CDATA[Oracle Database]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="9480" bugdb_id="5"><![CDATA[Oracle Database Family]]></product> 
+    <release id="600000000009300" name="12.1.0.2.0" platform_patch_not_required="N" cc="Y"><![CDATA[Oracle 12.1.0.2.0]]></release> 
+    <platform id="226" bugdb_id="226"><![CDATA[Linux x86-64]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="178">Superseded</classification> 
+    <patch_classification id="178">Superseded</patch_classification> 
+    <patch_replacements> 
+      <reason><![CDATA[Patch 21419221 is superset of Patch 17694377]]></reason>
+      <note><![CDATA[The most recent replacement for this patch is 21419221. ]]></note>
+      <replaced_by> 
+        <bug> 
+          <number>21419221</number>
+          <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+        </bug> 
+        <name>21419221</name>
+        <type>Patchset</type>
+        <patch_details><![CDATA[/Orion/Services/search?bug=21419221&release=600000000009300]]></patch_details>
+      </replaced_by> 
+      <included_or_replaced_by> 
+        <bug> 
+          <number>21419221</number>
+          <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+        </bug> 
+        <name>21419221</name>
+        <type>Patchset</type>
+      </included_or_replaced_by> 
+    </patch_replacements> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <fixes_bugs truncated="no"> 
+      <bug> 
+        <number>17694377</number>
+        <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER ]]></abstract>
+      </bug> 
+    </fixes_bugs> 
+    <size>7743686780</size>
+    <files> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_1of8.zip</name>
+        <size>1673517582</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_1of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_1of8.zip]]></download_url> 
+        <digest type="MD5">017D624ABE5165406D3D7C7D2D3A834C</digest> 
+        <digest type="SHA-1">A78C8648F06BEAE7A237A2E19031DB05F10ADC9E</digest> 
+      </file> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_2of8.zip</name>
+        <size>1014527110</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_2of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_2of8.zip]]></download_url> 
+        <digest type="SHA-1">25DB59A24F4F96F8D8E8F38D2B00FE55EC0B4F13</digest> 
+        <digest type="MD5">7F93EDEA2178E425FF46FC8E52369EA3</digest> 
+      </file> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_3of8.zip</name>
+        <size>1747021093</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_3of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_3of8.zip]]></download_url> 
+        <digest type="SHA-1">93B96A2000138FAB51FA807B71A7514EA992E836</digest> 
+        <digest type="MD5">2DE14609679233465796840C8393B66A</digest> 
+      </file> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_4of8.zip</name>
+        <size>646969279</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_4of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_4of8.zip]]></download_url> 
+        <digest type="SHA-1">B3A0D073D7BCBBBD90335B1024DA054640EC246C</digest> 
+        <digest type="MD5">52395E136529510438165272978835FC</digest> 
+      </file> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_5of8.zip</name>
+        <size>918563767</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_5of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_5of8.zip]]></download_url> 
+        <digest type="MD5">C551D2F86618ADDA02D9C13907997D6E</digest> 
+        <digest type="SHA-1">B6BD63B4358CEF077707ACAF47C9F8C6ED40E947</digest> 
+      </file> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_6of8.zip</name>
+        <size>676467568</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_6of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_6of8.zip]]></download_url> 
+        <digest type="SHA-1">217FD92A80A5CEE556A122CEE718CC21E700171F</digest> 
+        <digest type="MD5">E3B4979ED09E018C0462C4BD9FED8313</digest> 
+      </file> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_7of8.zip</name>
+        <size>499236679</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_7of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_7of8.zip]]></download_url> 
+        <digest type="MD5">3424B9A0933B544D12736C2667693A71</digest> 
+        <digest type="SHA-1">D7A716BA2C3D9DF59D7C587B9870B8DDC512B446</digest> 
+      </file> 
+      <file> 
+        <name>p17694377_121020_Linux-x86-64_8of8.zip</name>
+        <size>567383702</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_Linux-x86-64_8of8.zip?aru=17851573&patch_file=p17694377_121020_Linux-x86-64_8of8.zip]]></download_url> 
+        <digest type="SHA-1">E94910C634EC226CABB741F524372F826BFF243F</digest> 
+        <digest type="MD5">AA63A65AD258EE1E6BFBE1D62131D936</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1441122103000">2015-09-01 15:41:43</updated_date> 
+    <released_date in_epoch_ms="1405419763000">2014-07-15 10:22:43</released_date> 
+  </patch> 
+</results>

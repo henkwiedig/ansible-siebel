@@ -1,0 +1,77 @@
+<results md5_sum="1c530615262134683f52fad5093ead45">
+  <generated_date in_epoch_ms="1493238631000">2017-04-26 20:30:31</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>17694377</number>
+      <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+    </bug> 
+    <name>17694377</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=17851171]]></patch_readme> 
+      <patch_details><![CDATA[/download/17694377.html]]></patch_details>
+    </url> 
+    <request_id>17851171</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32615" version="Q5"><![CDATA[Oracle Database - Enterprise Edition]]></qpart> 
+        <qpart cid="42353" version="Q790"><![CDATA[Oracle Server - Standard Edition]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="86176" version="12.1.0.2.0"><![CDATA[Oracle Database]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="9480" bugdb_id="5"><![CDATA[Oracle Database Family]]></product> 
+    <release id="600000000009300" name="12.1.0.2.0" platform_patch_not_required="N" cc="Y"><![CDATA[Oracle 12.1.0.2.0]]></release> 
+    <platform id="46" bugdb_id="46"><![CDATA[Linux x86]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="178">Superseded</classification> 
+    <patch_classification id="178">Superseded</patch_classification> 
+    <patch_replacements> 
+      <reason><![CDATA[Patch 21419221 is superset of Patch 17694377]]></reason>
+      <note><![CDATA[The most recent replacement for this patch is 21419221. ]]></note>
+      <replaced_by> 
+        <bug> 
+          <number>21419221</number>
+          <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+        </bug> 
+        <name>21419221</name>
+        <type>Patchset</type>
+        <patch_details><![CDATA[/Orion/Services/search?bug=21419221&release=600000000009300]]></patch_details>
+      </replaced_by> 
+      <included_or_replaced_by> 
+        <bug> 
+          <number>21419221</number>
+          <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+        </bug> 
+        <name>21419221</name>
+        <type>Patchset</type>
+      </included_or_replaced_by> 
+    </patch_replacements> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <fixes_bugs truncated="no"> 
+      <bug> 
+        <number>17694377</number>
+        <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER ]]></abstract>
+      </bug> 
+    </fixes_bugs> 
+    <size>867646276</size>
+    <files> 
+      <file> 
+        <name>p17694377_121020_LINUX.zip</name>
+        <size>867646276</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p17694377_121020_LINUX.zip?aru=17851171&patch_file=p17694377_121020_LINUX.zip]]></download_url> 
+        <digest type="SHA-1">6AC3EF153A36E1F089C061410A3EEFFE858948EF</digest> 
+        <digest type="MD5">746F512A9C9CA90B5DA103DB88BD1239</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1441122119000">2015-09-01 15:41:59</updated_date> 
+    <released_date in_epoch_ms="1405419763000">2014-07-15 10:22:43</released_date> 
+  </patch> 
+</results>

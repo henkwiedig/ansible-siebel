@@ -1,0 +1,27 @@
+- name: get filename for jdk
+  find:
+    paths: "{{siebel_repository_path}}/jdk-{{jdk_version}}/unarchive/"
+    patterns: "jdk*.tar.gz"
+  register: tmp_glob
+
+- name: unpack jdk
+  unarchive:
+    src: "{{ item.path }}"
+    dest: "/opt"
+    remote_src: true
+  with_items:
+    - "{{ tmp_glob.files }}"
+
+- name: get java_home
+  find:
+    paths: "/opt/"
+    patterns: "jdk*"
+    file_type: directory
+  register: java_home
+
+- name: update profile
+  blockinfile:
+    path: /etc/profile
+    block: |
+        export JAVA_HOME={{java_home.files[0].path}}
+        export PATH=$PATH:$JAVA_HOME/bin

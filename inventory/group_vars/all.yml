@@ -1,0 +1,8 @@
+---
+siebel_version: 16.0.0.0
+oracle_version: 12.1.0.2.0
+oracle_client_version: 12.1.0.2.0
+ohs_version: 11.1.1.9.0
+jdk_version: 1.8.0_131
+
+siebel_repository_path: /home/siebel_repository

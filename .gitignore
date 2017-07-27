@@ -1,0 +1,5 @@
+ansible
+source_me.sh
+inventory/production
+*.retry
+roles/siebel-repository/tasks/mos-credentials.yml

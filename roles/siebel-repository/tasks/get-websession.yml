@@ -1,0 +1,29 @@
+- name: get sso params
+  uri: 
+    url: "https://updates.oracle.com/Orion/Services/download"
+    headers:
+      User-Agent: "Mozilla/5.0"
+    return_content: yes
+  register: sso_params
+
+- name: get sso cookie
+  uri: 
+    url: "https://login.oracle.com:443/sso/auth"
+    body: "ssousername={{mosusername}}&password={{mospassword}}&{{sso_params.url.split('?')[1]}}"
+    method: POST
+    headers:
+      User-Agent: "Mozilla/5.0"
+    return_content: yes
+    status_code: 302
+  register: sso_cookie
+
+- name: get oracle updates cookie
+  uri: 
+    url: "{{sso_cookie.location}}"
+    headers:
+      User-Agent: "Mozilla/5.0"
+      Cookie: "{{sso_cookie.set_cookie}}"
+    follow_redirects: none
+    return_content: yes
+    status_code: 302
+  register: ou_cookie

@@ -1,0 +1,58 @@
+<results md5_sum="847f8edd99485f44fbab917efb587fd0">
+  <generated_date in_epoch_ms="1492525373000">2017-04-18 14:22:53</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>25856890</number>
+      <abstract><![CDATA[16.12.0.0 23057 sba PATCHSET12 sebl_aru]]></abstract>
+    </bug> 
+    <name>16.12.0.0 PATCHSET12</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=21178352]]></patch_readme> 
+      <patch_details><![CDATA[/download/25856890.html]]></patch_details>
+    </url> 
+    <request_id>21178352</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32583" version="Q2968"><![CDATA[Siebel CRM]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="358811" version="16.0"><![CDATA[Siebel Industry Applications]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="13046" bugdb_id="2968"><![CDATA[Siebel CRM Family]]></product> 
+    <release id="600000000035409" name="16.0.0" platform_patch_not_required="N" cc="N"><![CDATA[Siebel Innovation Pack 16.0]]></release> 
+    <platform id="226" bugdb_id="226"><![CDATA[Linux x86-64]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>548905738</size>
+    <files> 
+      <file> 
+        <name>p25856890_1600_Linux-x86-64_1of2.zip</name>
+        <size>86853</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p25856890_1600_Linux-x86-64_1of2.zip?aru=21178352&patch_file=p25856890_1600_Linux-x86-64_1of2.zip]]></download_url> 
+        <digest type="SHA-1">0099D598ECDC555FA1BFCB9ECF992E494AADA295</digest> 
+        <digest type="MD5">BFF030E7901D1B2433AE019F9B3F9113</digest> 
+        <digest type="SHA-256">7B33A0308A169B20FFE5541A05B1EF214B62704268A0DA30BCD9CF7493280844</digest> 
+      </file> 
+      <file> 
+        <name>p25856890_1600_Linux-x86-64_2of2.zip</name>
+        <size>548818885</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p25856890_1600_Linux-x86-64_2of2.zip?aru=21178352&patch_file=p25856890_1600_Linux-x86-64_2of2.zip]]></download_url> 
+        <digest type="SHA-1">820BE9CB7B39B006974BE3C5A05CD38BA4F0CFF6</digest> 
+        <digest type="SHA-256">2D3D1DA9C7E6EA9EB0064DF5688ABEAA812AEC0C1C6B9821E197A1576A36310C</digest> 
+        <digest type="MD5">D7744CAD8F1EB6DFDDC75298DCCD3216</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1492199484000">2017-04-14 19:51:24</updated_date> 
+    <released_date in_epoch_ms="1491586162000">2017-04-07 17:29:22</released_date> 
+  </patch> 
+</results>
