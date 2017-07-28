@@ -1,5 +1,5 @@
 ---
-# tasks file for siebel-repository
+# tasks file for software-repository
 - name: load mos credentrials
   include_vars: mos-credentials.yml
 
@@ -45,7 +45,7 @@
 - name: export repository via nfs
   lineinfile:
     path: /etc/exports
-    line: "{{ siebel_repository_path }}        *(rw,sync,no_subtree_check)"
+    line: "{{ software_repository_path }}        *(rw,sync,no_subtree_check)"
 
 - name: enable service nfs-server
   systemd:

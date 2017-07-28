@@ -1,5 +1,6 @@
 ansible
 source_me.sh
 inventory/production
+inventory/test
 *.retry
-roles/siebel-repository/tasks/mos-credentials.yml
+roles/software-repository/tasks/mos-credentials.yml

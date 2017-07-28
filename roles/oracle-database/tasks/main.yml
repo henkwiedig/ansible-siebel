@@ -28,8 +28,8 @@
 
 - name: mount repository
   mount:
-    name: "/mnt{{ siebel_repository_path }}"
-    src: "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}:{{ siebel_repository_path }}"
+    name: "/mnt{{ software_repository_path }}"
+    src: "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}:{{ software_repository_path }}"
     fstype: nfs
     state: mounted
 
@@ -132,7 +132,7 @@
   become: true
   become_user: oracle
   args:
-    chdir: "/mnt{{ siebel_repository_path }}/oracle-{{ oracle_version }}/unarchive/database"
+    chdir: "/mnt{{ software_repository_path }}/oracle-{{ oracle_version }}/unarchive/database"
     creates: "/home/oracle/app/oracle/product/12.1.0/dbhome_1/oraInst.loc"
 
 - name: run orainstRoot.sh

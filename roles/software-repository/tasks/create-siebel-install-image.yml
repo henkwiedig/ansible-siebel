@@ -1,11 +1,11 @@
 - name: template snic file linux server
   template: 
-    src: roles/siebel-repository/files/siebel-linux.rsp.j2
+    src: roles/software-repository/files/siebel-linux.rsp.j2
     dest: /tmp/sisbel-linux.rsp
 
 - name: template snic file sample database
   template: 
-    src: roles/siebel-repository/files/siebel-sample.rsp.j2
+    src: roles/software-repository/files/siebel-sample.rsp.j2
     dest: /tmp/siebel-sample.rsp
 
 - name: get java_home for snic
@@ -17,18 +17,18 @@
 
 - name: check if we ran before server
   stat:
-    path: "{{ siebel_repository_path }}/siebel-{{ siebel_version }}/Siebel_Install_Image/products.txt"
+    path: "{{ software_repository_path }}/siebel-{{ siebel_version }}/Siebel_Install_Image/products.txt"
   register: server_install_image
 
 - name: check if we ran before sample
   stat:
-    path: "{{ siebel_repository_path }}/siebel-win-{{ siebel_version }}/Siebel_Install_Image/products.txt"
+    path: "{{ software_repository_path }}/siebel-win-{{ siebel_version }}/Siebel_Install_Image/products.txt"
   register: sample_install_image
 
 - name: run snic.sh server
   command: ./snic.sh -silent -responseFile /tmp/sisbel-linux.rsp
   args:
-    chdir: "{{ siebel_repository_path }}/siebel-{{ siebel_version }}/unarchive"
+    chdir: "{{ software_repository_path }}/siebel-{{ siebel_version }}/unarchive"
   when:
     server_install_image.stat.exists == false
   environment:
@@ -39,7 +39,7 @@
 - name: run snic.sh sample
   command: ./snic.sh -silent -responseFile /tmp/siebel-sample.rsp
   args:
-    chdir: "{{ siebel_repository_path }}/siebel-win-{{ siebel_version }}/unarchive"
+    chdir: "{{ software_repository_path }}/siebel-win-{{ siebel_version }}/unarchive"
   when:
     sample_install_image.stat.exists == false
   environment:

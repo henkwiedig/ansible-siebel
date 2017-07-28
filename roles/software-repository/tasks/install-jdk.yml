@@ -1,6 +1,6 @@
 - name: get filename for jdk
   find:
-    paths: "{{siebel_repository_path}}/jdk-{{jdk_version}}/unarchive/"
+    paths: "{{software_repository_path}}/jdk-{{jdk_version}}/unarchive/"
     patterns: "jdk*.tar.gz"
   register: tmp_glob
 
