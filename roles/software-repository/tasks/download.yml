@@ -11,4 +11,5 @@
     dest: "{{software_repository_path}}/{{product}}/download/{{ item.split(';')[0] }}"
     headers: "User-Agent:Mozilla/5.0,Cookie:{{ou_cookie.set_cookie.split(';')[3].split(', ')[2]}}"
     checksum: "md5:{{ item.split(';')[3] }}"
+    timeout: 20
   with_lines: "xsltproc files/mos-patch-metadata.xslt files/{{product}}.xml"

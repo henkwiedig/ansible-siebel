@@ -1,0 +1,113 @@
+<results md5_sum="3e957b18e12c12ec290da9c89787a4dd">
+  <generated_date in_epoch_ms="1501228020000">2017-07-28 07:47:00</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>21419221</number>
+      <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+    </bug> 
+    <name>21419221</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=19279837]]></patch_readme> 
+      <patch_details><![CDATA[/download/21419221.html]]></patch_details>
+    </url> 
+    <request_id>19279837</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32615" version="Q5"><![CDATA[Oracle Database - Enterprise Edition]]></qpart> 
+        <qpart cid="42353" version="Q790"><![CDATA[Oracle Server - Standard Edition]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="86176" version="12.1.0.2.0"><![CDATA[Oracle Database]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="9480" bugdb_id="5"><![CDATA[Oracle Database Family]]></product> 
+    <release id="600000000009300" name="12.1.0.2.0" platform_patch_not_required="N" cc="Y"><![CDATA[Oracle 12.1.0.2.0]]></release> 
+    <platform id="212" bugdb_id="212"><![CDATA[IBM AIX on POWER Systems (64-bit)]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>13565980459</size>
+    <files> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_10of10.zip</name>
+        <size>951379743</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_10of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_10of10.zip]]></download_url> 
+        <digest type="MD5">93A6E53037A67711005593FAA9BCAD17</digest> 
+        <digest type="SHA-1">DA1E86ACE31F49374C3553A964B0AF8133B160FE</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_1of10.zip</name>
+        <size>2062064160</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_1of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_1of10.zip]]></download_url> 
+        <digest type="MD5">F06CB09E68FB8374D160DDF46F8284FB</digest> 
+        <digest type="SHA-1">CDC7FF218BC75453776C79FE6E9C9600FD8E14FB</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_2of10.zip</name>
+        <size>1035130518</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_2of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_2of10.zip]]></download_url> 
+        <digest type="MD5">31BA223C00F8D4AD9043153979D4ED09</digest> 
+        <digest type="SHA-1">30F4DF8B71812CA6B30F079A512749E89C75339A</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_3of10.zip</name>
+        <size>2062853941</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_3of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_3of10.zip]]></download_url> 
+        <digest type="SHA-1">7EF10E9DDBCB919E6634D61800C73AE70D99DF76</digest> 
+        <digest type="MD5">7FF3520EE33A3FE9023024D8A2640F97</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_4of10.zip</name>
+        <size>1032429639</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_4of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_4of10.zip]]></download_url> 
+        <digest type="SHA-1">9A2AEECFFF0F590D51589849D4F4F2FFAFDA4328</digest> 
+        <digest type="MD5">F1AA25772B946B0A6577DE6956E7F167</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_5of10.zip</name>
+        <size>1481493101</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_5of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_5of10.zip]]></download_url> 
+        <digest type="SHA-1">69DC6BBBDEFA5BF5147EC2F8B1506BEF59A9EDCA</digest> 
+        <digest type="MD5">45C3600B2322478B4060A75F3BF9B05B</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_6of10.zip</name>
+        <size>2040828798</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_6of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_6of10.zip]]></download_url> 
+        <digest type="MD5">B6BFD4CC53EE8E8A93AD4308312D2D49</digest> 
+        <digest type="SHA-1">54CEC0296C706851F5CECADC520D50FF63A746FD</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_7of10.zip</name>
+        <size>1325597859</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_7of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_7of10.zip]]></download_url> 
+        <digest type="MD5">47BDBD1DBFE09D2ACE39548C9DA83A4D</digest> 
+        <digest type="SHA-1">1ADE523A75E4BBFE3F8AE8AB439049F769FDF907</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_8of10.zip</name>
+        <size>975354573</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_8of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_8of10.zip]]></download_url> 
+        <digest type="SHA-1">5FDA29FC08E89BEE34D3E9722CDAFC9AD7E57465</digest> 
+        <digest type="MD5">12334564D14EC333E76A5B582D95C153</digest> 
+      </file> 
+      <file> 
+        <name>p21419221_121020_AIX64-5L_9of10.zip</name>
+        <size>598848127</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX64-5L_9of10.zip?aru=19279837&patch_file=p21419221_121020_AIX64-5L_9of10.zip]]></download_url> 
+        <digest type="MD5">362D9E653E7A5214EC2CAB41234FF341</digest> 
+        <digest type="SHA-1">32D818AFB854FE01C266196ABF82241B28AB0A63</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1441116332000">2015-09-01 14:05:32</updated_date> 
+    <released_date in_epoch_ms="1438931942000">2015-08-07 07:19:02</released_date> 
+  </patch> 
+</results>

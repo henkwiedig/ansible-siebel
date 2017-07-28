@@ -1,0 +1,56 @@
+<results md5_sum="a08cc53210c5e02cb42c70490dcff18a">
+  <generated_date in_epoch_ms="1501232303000">2017-07-28 08:58:23</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>20995453</number>
+      <abstract><![CDATA[ORACLE WEBTIER SUITE 11G PATCH SET 7 (11.1.1.9.0)]]></abstract>
+    </bug> 
+    <name>20995453</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=18885891]]></patch_readme> 
+      <patch_details><![CDATA[/download/20995453.html]]></patch_details>
+    </url> 
+    <request_id>18885891</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32626" version="Q1032"><![CDATA[Oracle Fusion Middleware]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="167725" version="11.1.1.9.0"><![CDATA[Oracle Fusion Middleware]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="10120" bugdb_id="1032"><![CDATA[Oracle Fusion Middleware Family]]></product> 
+    <release id="600000000007876" name="11.1.1.9.0" platform_patch_not_required="Y" cc="Y"><![CDATA[FMW 11.1.1.9.0]]></release> 
+    <platform id="212" bugdb_id="212"><![CDATA[IBM AIX on POWER Systems (64-bit)]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>2558661577</size>
+    <files> 
+      <file> 
+        <name>p20995453_111190_AIX64-5L_1of2.zip</name>
+        <size>1262894499</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p20995453_111190_AIX64-5L_1of2.zip?aru=18885891&patch_file=p20995453_111190_AIX64-5L_1of2.zip]]></download_url> 
+        <digest type="MD5">2BC4527E47429825AFBFEB39231A744F</digest> 
+        <digest type="SHA-1">6B80FF4EF97B4600FD9087C6FFC6A7BCB7FE02E0</digest> 
+      </file> 
+      <file> 
+        <name>p20995453_111190_AIX64-5L_2of2.zip</name>
+        <size>1295767078</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p20995453_111190_AIX64-5L_2of2.zip?aru=18885891&patch_file=p20995453_111190_AIX64-5L_2of2.zip]]></download_url> 
+        <digest type="SHA-1">FC143171A1C9350F1FEC4ADF8C8C0DA2C86BD426</digest> 
+        <digest type="MD5">0FF108A8DD60FF87B664836F3B4C6C75</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1430850943000">2015-05-05 18:35:43</updated_date> 
+    <released_date in_epoch_ms="1430517713000">2015-05-01 22:01:53</released_date> 
+  </patch> 
+</results>

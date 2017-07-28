@@ -8,11 +8,11 @@
 - name: download
   include: download.yml
   with_items:
-    - siebel-{{siebel_version}}
+    - siebel-{{target_platform}}-{{siebel_version}}
     - siebel-win-{{siebel_version}}
-    - oracle-{{oracle_version}}
-    - oracle-client-{{oracle_client_version}}
-    - ohs-{{ohs_version}}
+    - oracle-{{target_platform}}-{{oracle_version}}
+    - oracle-client-{{target_platform}}-{{oracle_client_version}}
+    - ohs-{{target_platform}}-{{ohs_version}}
     - jdk-{{jdk_version}}
   loop_control:
     loop_var: product
@@ -20,17 +20,18 @@
 - name: unarchive
   include: unarchive.yml
   with_items:
-    - siebel-{{siebel_version}}
+    - siebel-{{target_platform}}-{{siebel_version}}
     - siebel-win-{{siebel_version}}
-    - oracle-{{oracle_version}}
-    - oracle-client-{{oracle_client_version}}
-    - ohs-{{ohs_version}}
+    - oracle-{{target_platform}}-{{oracle_version}}
+    - oracle-client-{{target_platform}}-{{oracle_client_version}}
+    - ohs-{{target_platform}}-{{ohs_version}}
     - jdk-{{jdk_version}}
   loop_control:
     loop_var: product
 
 - name: install jdk
   include: install-jdk.yml
+  when: ansible_distribution != "AIX"
 
 - name: create siebel install image
   include: create-siebel-install-image.yml
@@ -41,14 +42,16 @@
     state: latest
   with_items:
     - nfs-utils
+  when: ansible_distribution != "AIX"
 
 - name: export repository via nfs
   lineinfile:
     path: /etc/exports
     line: "{{ software_repository_path }}        *(rw,sync,no_subtree_check)"
 
-- name: enable service nfs-server
+- name: enable service nfs-server linux
   systemd:
     name: nfs-server
     enabled: yes
     state: restarted
+  when: ansible_distribution != "AIX"

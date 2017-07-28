@@ -1,0 +1,50 @@
+<results md5_sum="8b23e5d67c952a3629fb65bedbb0ca30">
+  <generated_date in_epoch_ms="1501228181000">2017-07-28 07:49:41</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>21419221</number>
+      <abstract><![CDATA[12.1.0.2.0 PATCH SET FOR ORACLE DATABASE SERVER]]></abstract>
+    </bug> 
+    <name>21419221</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=19279598]]></patch_readme> 
+      <patch_details><![CDATA[/download/21419221.html]]></patch_details>
+    </url> 
+    <request_id>19279598</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32615" version="Q5"><![CDATA[Oracle Database - Enterprise Edition]]></qpart> 
+        <qpart cid="42353" version="Q790"><![CDATA[Oracle Server - Standard Edition]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="86176" version="12.1.0.2.0"><![CDATA[Oracle Database]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="9480" bugdb_id="5"><![CDATA[Oracle Database Family]]></product> 
+    <release id="600000000009300" name="12.1.0.2.0" platform_patch_not_required="N" cc="Y"><![CDATA[Oracle 12.1.0.2.0]]></release> 
+    <platform id="319" bugdb_id="319"><![CDATA[IBM AIX on POWER Systems (32-bit)]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>1229975202</size>
+    <files> 
+      <file> 
+        <name>p21419221_121020_AIX.zip</name>
+        <size>1229975202</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p21419221_121020_AIX.zip?aru=19279598&patch_file=p21419221_121020_AIX.zip]]></download_url> 
+        <digest type="MD5">C28A7921ADDC8CFD346A6BF971B4306C</digest> 
+        <digest type="SHA-1">A2D0B183998D98EE1AF8C302B14FB3627058E0DD</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1441116414000">2015-09-01 14:06:54</updated_date> 
+    <released_date in_epoch_ms="1438931942000">2015-08-07 07:19:02</released_date> 
+  </patch> 
+</results>

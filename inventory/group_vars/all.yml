@@ -5,4 +5,6 @@ oracle_client_version: 12.1.0.2.0
 ohs_version: 11.1.1.9.0
 jdk_version: 1.8.0_131
 
-software_repository_path: /opt/software_repository
+target_platform: aix
+
+software_repository_path: /opt/siebel/software_repository
