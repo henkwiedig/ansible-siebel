@@ -3,6 +3,7 @@
     path: "{{software_repository_path}}/{{product}}/unarchive"
     state: directory
     mode: 0755
+  register: create_directory
 
 - name: unarchive product
   unarchive:
@@ -10,3 +11,4 @@
     dest: "{{software_repository_path}}/{{product}}/unarchive"
     remote_src: true
   with_lines: "xsltproc files/mos-patch-metadata.xslt files/{{product}}.xml"
+  when: create_directory.changed == true

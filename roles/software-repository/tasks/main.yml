@@ -47,7 +47,9 @@
 - name: export repository via nfs
   lineinfile:
     path: /etc/exports
-    line: "{{ software_repository_path }}        *(rw,sync,no_subtree_check)"
+    line: "{{ software_repository_path }}        *(rw)"
+    create: yes
+  when: ansible_distribution != "AIX"	
 
 - name: enable service nfs-server linux
   systemd:
@@ -55,3 +57,7 @@
     enabled: yes
     state: restarted
   when: ansible_distribution != "AIX"
+  
+- name: export repository vio nfs on aix
+  command: /usr/sbin/mknfsexp -d {{ software_repository_path }} -P -B -S "sys,krb5p,krb5i,krb5,dh" -t rw
+  when: ansible_distribution == "AIX"

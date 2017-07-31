@@ -1,0 +1,50 @@
+<results md5_sum="b73423b9dff2a65193a3b55efe0f9060">
+  <generated_date in_epoch_ms="1501489849000">2017-07-31 08:30:49</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>26512975</number>
+      <abstract><![CDATA[Oracle JDK 8 Update 144]]></abstract>
+    </bug> 
+    <name>26512975</name>
+    <type>Patch</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=21442261]]></patch_readme> 
+      <patch_details><![CDATA[/download/26512975.html]]></patch_details>
+    </url> 
+    <request_id>21442261</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="50559" version="Q856"><![CDATA[Java SE JDK and JRE]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="825724" version="1.8.0_144"><![CDATA[Oracle JDK]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="12443" bugdb_id="856"><![CDATA[Java SE]]></product> 
+    <release id="600000000093130" name="1.8.0.144" platform_patch_not_required="Y" cc="N"><![CDATA[Oracle JDK 1.8.0_144]]></release> 
+    <platform id="226" bugdb_id="226"><![CDATA[Linux x86-64]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>353900210</size>
+    <files> 
+      <file> 
+        <name>p26512975_180144_Linux-x86-64.zip</name>
+        <size>353900210</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26512975_180144_Linux-x86-64.zip?aru=21442261&patch_file=p26512975_180144_Linux-x86-64.zip]]></download_url> 
+        <digest type="SHA-1">F37DAD474D4A9B0039816BB107CF234E10837742</digest> 
+        <digest type="MD5">B0CB2B5FEB800D75D78BC1485423316F</digest> 
+        <digest type="SHA-256">FD8F751B0F9107D2BFDA5718CF2CA9C1FE992F637DBBEBA2A658F08EE87BD42A</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1501087719000">2017-07-26 16:48:39</updated_date> 
+    <released_date in_epoch_ms="1500975750000">2017-07-25 09:42:30</released_date> 
+  </patch> 
+</results>

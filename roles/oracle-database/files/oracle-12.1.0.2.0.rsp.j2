@@ -47,7 +47,7 @@ UNIX_GROUP_NAME=oinstall
 # This is an optional parameter if installing on
 # Windows based Operating System.
 #-------------------------------------------------------------------------------
-INVENTORY_LOCATION=/home/oracle/app/oraInventory
+INVENTORY_LOCATION={{ oracle_base_path }}/oraInventory
 #-------------------------------------------------------------------------------
 # Specify the languages in which the components will be installed.             
 # 
@@ -88,12 +88,12 @@ SELECTED_LANGUAGES=en,de
 #-------------------------------------------------------------------------------
 # Specify the complete path of the Oracle Home. 
 #-------------------------------------------------------------------------------
-ORACLE_HOME=/home/oracle/app/oracle/product/12.1.0/dbhome_1
+ORACLE_HOME={{ oracle_base_path }}/product/12.1.0/dbhome_1
 
 #-------------------------------------------------------------------------------
 # Specify the complete path of the Oracle Base. 
 #-------------------------------------------------------------------------------
-ORACLE_BASE=/home/oracle/app/oracle
+ORACLE_BASE={{ oracle_base_path }}
 
 #-------------------------------------------------------------------------------
 # Specify the installation edition of the component.                     
@@ -377,7 +377,7 @@ oracle.install.db.config.starterdb.storageType=FILE_SYSTEM_STORAGE
 #
 # Applicable only when oracle.install.db.config.starterdb.storage=FILE_SYSTEM_STORAGE 
 #-------------------------------------------------------------------------------
-oracle.install.db.config.starterdb.fileSystemStorage.dataLocation=/home/oracle/app/oracle/oradata
+oracle.install.db.config.starterdb.fileSystemStorage.dataLocation={{ oracle_base_path }}/oradata
 
 #-------------------------------------------------------------------------------
 # Specify the recovery location.
