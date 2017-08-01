@@ -1,0 +1,32 @@
+- name: template create tablespaces sql
+  template: 
+    src: roles/siebel-server/files/create_tablespace.sql.j2
+    dest: "/tmp/create_tablespace_{{item}}.sql"
+  with_items:
+    - "SDATA"
+    - "SINDEX"
+
+- name: create tablespaces
+  shell : "source /home/siebel/.bash_profile && echo '{{oracle_passwd}}'| sqlplus system@orcl @/tmp/create_tablespace_{{item}}.sql"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+    creates: "{{oracle_base_path}}/oracle/base/oradata/orcl/{{item}}.dbf"
+  with_items:
+    - "SDATA"
+    - "SINDEX"
+
+- name: template grantusr sql
+  template: 
+    src: roles/siebel-server/files/grantusr.sql.j2
+    dest: "/tmp/grantusr.sql"
+
+- name: run grantusr sql
+  shell : "source /home/siebel/.bash_profile && echo '{{oracle_passwd}}'| sqlplus system@orcl @/tmp/grantusr.sql"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"

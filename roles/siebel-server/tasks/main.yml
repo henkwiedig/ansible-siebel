@@ -1,5 +1,5 @@
 ---
-# tasks file for siebel gateway
+# tasks file for siebel server
 - name: enable nfs-related services
   service:
    name: "{{ item }}"
@@ -47,17 +47,17 @@
     group: sse_role
   with_items:
     - "{{siebel_base_path}}"
-    - "{{siebel_base_path}}/gw/oraInventory/"
+    - "{{siebel_base_path}}/ses/oraInventory/"
 
-- name: create siebel gw oraInventory
+- name: create siebel ses oraInventory
   blockinfile:
-    path: "{{siebel_base_path}}/gw/oraInventory/oraInst.loc"
+    path: "{{siebel_base_path}}/ses/oraInventory/oraInst.loc"
     create: yes
     mode: 0775
     owner: siebel
     group: sse_role
     block: |
-       inventory_loc={{siebel_base_path}}/gw/oraInventory
+       inventory_loc={{siebel_base_path}}/ses/oraInventory
        inst_group=siebel
 
 - name: get java_home on linux
@@ -93,62 +93,30 @@
        export LIBPATH=$LD_LIBRARY_PATH
        RESOLV_MULTI=off ; export RESOLV_MULTI
 
-- name: template install gateway response file
+- name: template install ses response file
   template: 
-    src: roles/siebel-gateway/files/siebel-{{siebel_version}}-install-gw.rsp.j2
-    dest: /tmp/siebel-{{siebel_version}}-install-gw.rsp
+    src: roles/siebel-server/files/siebel-{{siebel_version}}-install-ses.rsp.j2
+    dest: /tmp/siebel-{{siebel_version}}-install-ses.rsp
 
-- name: install gateway
-  shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-gw.rsp -jreloc {{java_home.files[0].path}} -invPtrLoc {{siebel_base_path}}/gw/oraInventory/oraInst.loc"
+- name: install ses
+  shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-ses.rsp -jreloc {{java_home.files[0].path}} -invPtrLoc {{siebel_base_path}}/ses/oraInventory/oraInst.loc"
   become: true
   become_user: siebel
   become_method: su
   args:
     chdir: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/16.0.0.0/AIX/Server/Siebel_Enterprise_Server/Disk1/install"
     executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/cfgenv.sh"
+    creates: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/cfgenv.sh"
 
-- name: template config gateway response file
-  template: 
-    src: roles/siebel-gateway/files/siebel-{{siebel_version}}-config-gw.rsp.j2
-    dest: /tmp/siebel-{{siebel_version}}-config-gw.rsp
-
-- name: config gateway
-  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/cfgenv.sh && ./config.sh -mode enterprise  -responseFile /tmp/siebel-{{siebel_version}}-config-gw.rsp"
+- name: create dbenv.sh
+  shell : "source /home/siebel/.bash_profile && ./CreateDbSrvrEnvScript {{siebel_base_path}}/ses/16.0.0.0.0/ses ENU Oracle"
   become: true
   become_user: siebel
   become_method: su
   args:
-    chdir: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/config"
+    chdir: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/install_script/install"
     executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/sys/siebns.dat"
+    creates: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbenv.sh"	
 
-- name: template config enterprise response file
-  template: 
-    src: roles/siebel-gateway/files/siebel-{{siebel_version}}-config-enterprise.rsp.j2
-    dest: /tmp/siebel-{{siebel_version}}-config-enterprise.rsp
-
-- name: config enterprise
-  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/siebenv.sh && ./config.sh -mode enterprise  -responseFile /tmp/siebel-{{siebel_version}}-config-enterprise.rsp"
-  become: true
-  become_user: siebel
-  become_method: su
-  args:
-    chdir: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/config"
-    executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/fs/att"
-
-- name: template config swe_profile response file
-  template: 
-    src: roles/siebel-gateway/files/siebel-{{siebel_version}}-config-swe_profile.rsp.j2
-    dest: /tmp/siebel-{{siebel_version}}-config-swe_profile.rsp
-
-- name: config swe_profile
-  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/siebenv.sh && ./config.sh -mode enterprise  -responseFile /tmp/siebel-{{siebel_version}}-config-swe_profile.rsp"
-  become: true
-  become_user: siebel
-  become_method: su
-  args:
-    chdir: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/config"
-    executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/admin/Webserver/eapps.cfg"	
+- name: create siebel database
+  include: create-siebel-database.yml

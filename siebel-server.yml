@@ -1,0 +1,4 @@
+- hosts: siebel-server
+  roles:
+    - oracle-client
+    - siebel-server

@@ -90,4 +90,25 @@
        PATH=/usr/sbin:$PATH; export PATH
        PATH=$ORACLE_HOME/bin:$PATH; export PATH
        LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+       export LIBPATH=$LD_LIBRARY_PATH
        RESOLV_MULTI=off ; export RESOLV_MULTI
+
+- name: template oracle_client response file
+  template: 
+    src: "roles/oracle-client/files/oracle-client-{{oracle_client_version}}.rsp.j2"
+    dest: "/tmp/oracle-client-{{oracle_client_version}}.rsp"
+
+- name: install oracle_client
+  shell : "source /home/siebel/.bash_profile && ./runInstaller -ignoreSysPrereqs -ignorePrereq -showProgress -invPtrLoc {{siebel_base_path}}/oracle_client/oraInventory/oraInst.loc -silent -waitforcompletion -responseFile /tmp/oracle-client-{{oracle_client_version}}.rsp"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+    chdir: "{{software_repository_path}}/oracle-client-{{target_platform}}-{{oracle_client_version}}/unarchive/client32"
+    creates: "{{siebel_base_path}}/oracle_client/client"
+
+- name: copy tnsnames.ora
+  template: 
+    src: "roles/oracle-client/files/oracle-client-tnsnames.ora.j2"
+    dest: "{{siebel_base_path}}/oracle_client/client/network/admin/tnsnames.ora"
