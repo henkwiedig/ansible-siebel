@@ -1,0 +1,82 @@
+<results md5_sum="f4b07b5de3be638a33550fd66e84c4a2">
+  <generated_date in_epoch_ms="1501569318000">2017-08-01 06:35:18</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>26395910</number>
+      <abstract><![CDATA[17.0.0.0 23073 sba  sebl_aru]]></abstract>
+    </bug> 
+    <name>17.0.0.0 23073</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=21410707]]></patch_readme> 
+      <patch_details><![CDATA[/download/26395910.html]]></patch_details>
+    </url> 
+    <request_id>21410707</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32583" version="Q2968"><![CDATA[Siebel CRM]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="644796" version="17.0"><![CDATA[Siebel Industry Applications]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="13046" bugdb_id="2968"><![CDATA[Siebel CRM Family]]></product> 
+    <release id="600000000065688" name="17.0" platform_patch_not_required="N" cc="N"><![CDATA[Siebel Innovation Pack 17.0]]></release> 
+    <platform id="212" bugdb_id="212"><![CDATA[IBM AIX on POWER Systems (64-bit)]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>5791903716</size>
+    <files> 
+      <file> 
+        <name>p26395910_1700_AIX64-5L_1of5.zip</name>
+        <size>7131</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_AIX64-5L_1of5.zip?aru=21410707&patch_file=p26395910_1700_AIX64-5L_1of5.zip]]></download_url> 
+        <digest type="SHA-256">BBA368B809DA1BEB36572DCEC471DD408E54A826D3E9818C4EE453543FBC714C</digest> 
+        <digest type="MD5">FC95E2C2004E2F0DF38AA8BC1570E548</digest> 
+        <digest type="SHA-1">DBAAB04F6F990C8E576F3FBC19E571E92BC420F5</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_AIX64-5L_2of5.zip</name>
+        <size>2140140535</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_AIX64-5L_2of5.zip?aru=21410707&patch_file=p26395910_1700_AIX64-5L_2of5.zip]]></download_url> 
+        <digest type="SHA-256">1C8C8DE0590B186E19D2EA365005E69C72AC76F32A9E9DD50912639C97CED0FA</digest> 
+        <digest type="MD5">35669A760DA1760FB803572FD4B8DFA7</digest> 
+        <digest type="SHA-1">D06B03264A073A6237E22DC37D17A33937B16B6A</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_AIX64-5L_3of5.zip</name>
+        <size>3633696201</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_AIX64-5L_3of5.zip?aru=21410707&patch_file=p26395910_1700_AIX64-5L_3of5.zip]]></download_url> 
+        <digest type="SHA-1">94D9959E9615D9106B4F69E702000469ADACE1CE</digest> 
+        <digest type="SHA-256">83167CC015B407CE60BE118597FD8CA077143BFFBDAE9FDFD4723F562E352FD8</digest> 
+        <digest type="MD5">A880218D4EE66828E355442D7981F0A7</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_AIX64-5L_4of5.zip</name>
+        <size>17349552</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_AIX64-5L_4of5.zip?aru=21410707&patch_file=p26395910_1700_AIX64-5L_4of5.zip]]></download_url> 
+        <digest type="SHA-256">3E99F9211623A0FBF3B9B62F68B21F99C0C9F4BE621014BD6712E94D1D1DEA16</digest> 
+        <digest type="MD5">138FA610D9BDA6D42D63602DCC086591</digest> 
+        <digest type="SHA-1">C28CFCB7183EB2175E6776031AECB65605432749</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_AIX64-5L_5of5.zip</name>
+        <size>710297</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_AIX64-5L_5of5.zip?aru=21410707&patch_file=p26395910_1700_AIX64-5L_5of5.zip]]></download_url> 
+        <digest type="MD5">AD900BE31A5A0F2AE8CCD4318132935F</digest> 
+        <digest type="SHA-256">83F8C050D00C989F9FB4BF05A9D2C1911253CD98F5893E5083CAF05321720D39</digest> 
+        <digest type="SHA-1">1A5C75663CEE2BE998794EF6F35B28D37BBAD37C</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1501512270000">2017-07-31 14:44:30</updated_date> 
+    <released_date in_epoch_ms="1499286269000">2017-07-05 20:24:29</released_date> 
+  </patch> 
+</results>

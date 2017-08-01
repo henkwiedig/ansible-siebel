@@ -9,3 +9,6 @@ target_platform: aix
 
 software_repository_path: /opt/siebel/software_repository
 oracle_base_path: /opt/siebel/oracle
+oracle_passwd: "Oracle$123"
+
+siebel_base_path: /opt/siebel

@@ -1,0 +1,4 @@
+- hosts: gateway-server
+  roles:
+    - oracle-client
+    - siebel-gateway

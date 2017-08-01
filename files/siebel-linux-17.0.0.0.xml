@@ -1,0 +1,82 @@
+<results md5_sum="fe8a2a4716c8277eb69dfddbe926aea2">
+  <generated_date in_epoch_ms="1501569603000">2017-08-01 06:40:03</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>26395910</number>
+      <abstract><![CDATA[17.0.0.0 23073 sba  sebl_aru]]></abstract>
+    </bug> 
+    <name>17.0.0.0 23073</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=21410569]]></patch_readme> 
+      <patch_details><![CDATA[/download/26395910.html]]></patch_details>
+    </url> 
+    <request_id>21410569</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32583" version="Q2968"><![CDATA[Siebel CRM]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="644796" version="17.0"><![CDATA[Siebel Industry Applications]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="13046" bugdb_id="2968"><![CDATA[Siebel CRM Family]]></product> 
+    <release id="600000000065688" name="17.0" platform_patch_not_required="N" cc="N"><![CDATA[Siebel Innovation Pack 17.0]]></release> 
+    <platform id="226" bugdb_id="226"><![CDATA[Linux x86-64]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>5565038247</size>
+    <files> 
+      <file> 
+        <name>p26395910_1700_Linux-x86-64_1of5.zip</name>
+        <size>7086</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_Linux-x86-64_1of5.zip?aru=21410569&patch_file=p26395910_1700_Linux-x86-64_1of5.zip]]></download_url> 
+        <digest type="SHA-256">EB926CF8C6E9A324F013614F6B993FD033F77206B0AA05C91DD9380584969DE8</digest> 
+        <digest type="SHA-1">E8291ACAB9D9888729AC28ACE0681ADDB281C83A</digest> 
+        <digest type="MD5">C6E97DED7153F9243D27A8D3E063378F</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_Linux-x86-64_2of5.zip</name>
+        <size>17348014</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_Linux-x86-64_2of5.zip?aru=21410569&patch_file=p26395910_1700_Linux-x86-64_2of5.zip]]></download_url> 
+        <digest type="SHA-256">8EA9969AF2EDFB07E87D5D39D904B886FFA6A22FCC86D92F4BD373D24DF9EBAD</digest> 
+        <digest type="SHA-1">CAEF68D0ACA8BAA2B7BA8545C15BF262159C3285</digest> 
+        <digest type="MD5">B18937AD60B84D13BA91B8DA963E9046</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_Linux-x86-64_3of5.zip</name>
+        <size>710297</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_Linux-x86-64_3of5.zip?aru=21410569&patch_file=p26395910_1700_Linux-x86-64_3of5.zip]]></download_url> 
+        <digest type="MD5">37471258BCE2974D252D57BF2E55DBA5</digest> 
+        <digest type="SHA-1">5AEAAD98DE78BA298FE6C60D70D459E40C58FD52</digest> 
+        <digest type="SHA-256">0D9E77FE587833EF8CF8997E70363C21EBCED5D3766D31FDE211EC6DAA529642</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_Linux-x86-64_4of5.zip</name>
+        <size>3512472274</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_Linux-x86-64_4of5.zip?aru=21410569&patch_file=p26395910_1700_Linux-x86-64_4of5.zip]]></download_url> 
+        <digest type="MD5">EC89163B974F14A11C6E7676A693E5EB</digest> 
+        <digest type="SHA-1">CB764B6BBA9320E81D9454D50BC5637A8658D7BE</digest> 
+        <digest type="SHA-256">B047BEB994C6B2CEAA0E383DC2FDC874B42283C0F99D7064BB32E54D5B5BADD2</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_Linux-x86-64_5of5.zip</name>
+        <size>2034500576</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_Linux-x86-64_5of5.zip?aru=21410569&patch_file=p26395910_1700_Linux-x86-64_5of5.zip]]></download_url> 
+        <digest type="SHA-1">365E76AEE13A3BB8AFFFD8D9BFC1B135258EA903</digest> 
+        <digest type="MD5">EFA9A1CE8FCB943B281CE008E23F269C</digest> 
+        <digest type="SHA-256">CA85925D9EEB9C93C70E00E305588F2AA2E4379375A1FBE3D852A1F1F78FB66F</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1501512270000">2017-07-31 14:44:30</updated_date> 
+    <released_date in_epoch_ms="1499286269000">2017-07-05 20:24:29</released_date> 
+  </patch> 
+</results>

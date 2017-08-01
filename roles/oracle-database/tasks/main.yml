@@ -73,9 +73,31 @@
   with_together:
     - "{{ limit_items }}"
     - "{{ limit_types }}"
-    - "{{ limit_values }}"
+    - "{{ limit_values }}"  
   when: ansible_distribution != "AIX"	
-
+  
+- name: set os limits for user on AIX
+  command: "chuser {{item}}=-1 oracle"
+  with_items:
+    - "fsize"
+    - "data"
+    - "stack"
+    - "core"
+    - "rss"
+    - "nofiles"
+    - "threads"
+    - "nproc"
+    - "cpu_hard"
+    - "fsize_hard"
+    - "data_hard"
+    - "stack_hard"
+    - "core_hard"
+    - "rss_hard"
+    - "nofiles_hard"
+    - "threads_hard"
+    - "nproc_hard"
+  when: ansible_distribution == "AIX"	  
+  
 - name: set sysctl_items
   set_fact:
     sysctl_items:  ['fs.suid_dumpable','fs.aio-max-nr','fs.file-max','kernel.shmall','kernel.shmmax','kernel.shmmni','kernel.sem','net.ipv4.ip_local_port_range','net.core.rmem_default','net.core.rmem_max','net.core.wmem_default','net.core.wmem_max' ]
@@ -125,9 +147,9 @@
       # Oracle Settings
       TMP={{oracle_base_path}}/tmp; export TMP
       TMPDIR=$TMP; export TMPDIR
-      ORACLE_HOSTNAME=localhost.localdomain; export ORACLE_HOSTNAME
+      ORACLE_HOSTNAME={{ ansible_hostname }}; export ORACLE_HOSTNAME
       ORACLE_UNQNAME=orcl; export ORACLE_UNQNAME
-      ORACLE_BASE={{oracle_base_path}}; export ORACLE_BASE
+      ORACLE_BASE={{oracle_base_path}}/base; export ORACLE_BASE
       ORACLE_HOME=$ORACLE_BASE/product/12.1.0/dbhome_1; export ORACLE_HOME
       ORACLE_SID=orcl; export ORACLE_SID
       PATH=/usr/sbin:$PATH; export PATH
@@ -142,18 +164,16 @@
 
 - name: run rootpre.sh on AIX
   command: "/mnt{{ software_repository_path }}/oracle-{{target_platform}}-{{ oracle_version }}/unarchive/database/rootpre.sh"
-  args:
-    creates: /etc/oraInst.loc
   when: ansible_distribution == "AIX"
 
 - name: install oracle
-  shell : "source /home/oracle/.bash_profile && echo y | ./runInstaller -silent -waitforcompletion -responseFile /tmp/oracle-{{oracle_version}}.rsp"
+  shell : "source /home/oracle/.bash_profile && echo y | ./runInstaller -ignoreSysPrereqs -ignorePrereq -showProgress -silent -waitforcompletion -responseFile /tmp/oracle-{{oracle_version}}.rsp"
   become: true
   become_user: oracle
   become_method: su
   args:
     chdir: "/mnt{{ software_repository_path }}/oracle-{{target_platform}}-{{ oracle_version }}/unarchive/database"
-    creates: "{{oracle_base_path}}/product/12.1.0/dbhome_1/oraInst.loc"
+    creates: "{{oracle_base_path}}/base/product/12.1.0/dbhome_1/oraInst.loc"
     executable: "/usr/bin/bash"
 
 - name: run orainstRoot.sh
@@ -162,18 +182,58 @@
     creates: /etc/oraInst.loc
 
 - name: run root.sh
-  command: "{{oracle_base_path}}/product/12.1.0/dbhome_1/root.sh"
+  command: "{{oracle_base_path}}/base/product/12.1.0/dbhome_1/root.sh"
   args:
     creates: /etc/oratab
 
-#- name: template response file pwdrsp.properties
-#  template: 
-#    src: "roles/oracle-database/files/oracle-{{oracle_version}}.pwdrsp.properties.j2"
-#    dest: "/tmp/oracle-{{oracle_version}}.pwdrsp.properties"
+- name: template dbca response file
+  template: 
+    src: "roles/oracle-database/files/oracle-{{oracle_version}}.dbca.j2"
+    dest: "/tmp/oracle-{{oracle_version}}-dbca.rsp"
 
-#- name: run configToolAllCommands
-#  shell: "/home/oracle/app/oracle/product/12.1.0/dbhome_1/cfgtoollogs/configToolAllCommands RESPONSE_FILE=/tmp/oracle-{{oracle_version}}.pwdrsp.properties"
-#  become: true
-#  become_user: oracle
-#
-#
+- name: create instance
+  shell : "source /home/oracle/.bash_profile && dbca -silent -createDatabase -cloneTemplate -responseFile /tmp/oracle-{{oracle_version}}-dbca.rsp"
+  become: true
+  become_user: oracle
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+    creates: "{{oracle_base_path}}/base/oradata/orcl/system01.dbf"
+
+- name: template netca response file
+  template: 
+    src: "roles/oracle-database/files/oracle-{{oracle_version}}.netca.j2"
+    dest: "/tmp/oracle-{{oracle_version}}-netca.rsp"
+
+- name: create listener
+  shell : "source /home/oracle/.bash_profile && netca -silent -responseFile /tmp/oracle-{{oracle_version}}-netca.rsp"
+  become: true
+  become_user: oracle
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"	 	
+    creates: "{{oracle_base_path}}/base/product/12.1.0/dbhome_1/network/admin/listener.ora"
+
+- name: create autostart script
+  template: 
+    src: "roles/oracle-database/files/oracle-{{oracle_version}}.dbora.j2"
+    dest: "/etc/dbora"
+    mode: 0744
+
+- name: patch oratab
+  lineinfile:
+    path: /etc/oratab
+    regexp: "^orcl:"
+    line: "orcl:{{oracle_base_path}}/base/product/12.1.0/dbhome_1:Y"
+
+- name: make autostart
+  lineinfile:
+    path: /etc/inittab
+    regexp: "^oracle:2:once:/etc/dbora"
+    line: "oracle:2:once:/etc/dbora start > /dev/console 2>&1"
+
+- name: patch rc.shutdown 
+  lineinfile:
+    path: /etc/rc.shutdown
+    regexp: "^/etc/rc.oracle stop"
+    line: "/etc/rc.oracle stop  > /dev/console 2>&1"

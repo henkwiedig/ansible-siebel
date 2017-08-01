@@ -1,0 +1,138 @@
+<results md5_sum="8f0b40d48dc21b562be11f7de5a4167c">
+  <generated_date in_epoch_ms="1501569397000">2017-08-01 06:36:37</generated_date>
+  <patch has_prereqs="n" has_postreqs="n" is_system_patch="n"> 
+    <bug> 
+      <number>26395910</number>
+      <abstract><![CDATA[17.0.0.0 23073 sba  sebl_aru]]></abstract>
+    </bug> 
+    <name>17.0.0.0 23073</name>
+    <type>Patchset</type>
+    <status>Available</status>
+    <access id="m">Open access</access> 
+    <url> 
+      <patch_readme host="https://updates.oracle.com"><![CDATA[/Orion/Services/download?type=readme&aru=21410708]]></patch_readme> 
+      <patch_details><![CDATA[/download/26395910.html]]></patch_details>
+    </url> 
+    <request_id>21410708</request_id>
+    <urm_components> 
+      <qparts ctype_id="201"> 
+        <qpart cid="32583" version="Q2968"><![CDATA[Siebel CRM]]></qpart> 
+      </qparts> 
+      <urm_releases ctype_id="5"> 
+        <urm_release cid="644796" version="17.0"><![CDATA[Siebel Industry Applications]]></urm_release> 
+      </urm_releases> 
+    </urm_components> 
+    <product id="13046" bugdb_id="2968"><![CDATA[Siebel CRM Family]]></product> 
+    <release id="600000000065688" name="17.0" platform_patch_not_required="N" cc="N"><![CDATA[Siebel Innovation Pack 17.0]]></release> 
+    <platform id="233" bugdb_id="233"><![CDATA[Microsoft Windows x64 (64-bit)]]></platform> 
+    <language id="0" iso_code="EN"><![CDATA[American English]]></language> 
+    <translations_available>No</translations_available> 
+    <classification id="174">General</classification> 
+    <patch_classification id="174">General</patch_classification> 
+    <support_level id="G">General Support</support_level> 
+    <entitlements> 
+      <entitlement code="SW"/> 
+    </entitlements> 
+    <size>18556387308</size>
+    <files> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_10of12.zip</name>
+        <size>3449632251</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_10of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_10of12.zip]]></download_url> 
+        <digest type="SHA-1">6280CF2EEB3517B524561AE986997A54395FC08B</digest> 
+        <digest type="SHA-256">31C627AE8EB1CDD8715312553C4B7FF24AAB3252571566532F95AAD6AC0B79FC</digest> 
+        <digest type="MD5">2A1299E33D309A501A802E5E6741FDF5</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_11of12.zip</name>
+        <size>1323073976</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_11of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_11of12.zip]]></download_url> 
+        <digest type="MD5">1FC0226D06AAB50DBDE61D587028F9F0</digest> 
+        <digest type="SHA-1">33D0E87C803950945872F3CA4F6686E16CB726D9</digest> 
+        <digest type="SHA-256">C4D5E41DEE33028F75835156F6D2FBE4EFADB4823921AD4087F624A5FE280BE7</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_12of12.zip</name>
+        <size>953143506</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_12of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_12of12.zip]]></download_url> 
+        <digest type="MD5">FD41BBB1650A83191BB142AA200D6A73</digest> 
+        <digest type="SHA-256">5BA0C6A23D44F806998F5A8434B7728447888AD60F97A05F6347229EB1A6D88B</digest> 
+        <digest type="SHA-1">2C79FE10120FA689B68B6A3C8DA43007A414E21F</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_1of12.zip</name>
+        <size>9214</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_1of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_1of12.zip]]></download_url> 
+        <digest type="SHA-1">B47979AEF589768260FAF583519E1CFD96C2F63A</digest> 
+        <digest type="SHA-256">906877A1668226CEA4219C79082CA221961190F1B7DFB940105CDDA069BDE520</digest> 
+        <digest type="MD5">36EF2D22BED33217A39A939FDADA2AD1</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_2of12.zip</name>
+        <size>978327553</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_2of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_2of12.zip]]></download_url> 
+        <digest type="SHA-256">60C02BB774B5327FBB63B8842FC909427B8C6ADD1B4A078141B4F31E5957C1DD</digest> 
+        <digest type="SHA-1">B5BD507E7EA2478C0DDFF0585A2189C24D083AAA</digest> 
+        <digest type="MD5">70296997AED392D48164B5CF64AA4B5C</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_3of12.zip</name>
+        <size>2247670264</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_3of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_3of12.zip]]></download_url> 
+        <digest type="SHA-256">650E341D476A279B0D4018D4B6C00AA106A3F44E934C57634A418B004465358B</digest> 
+        <digest type="SHA-1">E710C803B7F0DE99A81809C9064FA571F8A376FB</digest> 
+        <digest type="MD5">2A8F9C7F47409EF60ECF74971DF98BAC</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_4of12.zip</name>
+        <size>832107517</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_4of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_4of12.zip]]></download_url> 
+        <digest type="SHA-256">52401D573DFC22C37147C42BDF643D82E2CD6ADE6A703EF5E8B7ED0E67A7D6C0</digest> 
+        <digest type="SHA-1">83A6DDB64692B46B7A9CC80ED6448527E8FBB069</digest> 
+        <digest type="MD5">276997117A729B230B73D20021A7D573</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_5of12.zip</name>
+        <size>3357940640</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_5of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_5of12.zip]]></download_url> 
+        <digest type="MD5">4BDB49AE59B4E574F6166AB01B1A9E0C</digest> 
+        <digest type="SHA-256">A68D95C7F63BF201B48C02B55E1B14C2A5B6320D9E985E322697D57B1D4DED25</digest> 
+        <digest type="SHA-1">A9B23A60CD639C1974E76AA6905BC0748E7711BD</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_6of12.zip</name>
+        <size>710297</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_6of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_6of12.zip]]></download_url> 
+        <digest type="MD5">AD900BE31A5A0F2AE8CCD4318132935F</digest> 
+        <digest type="SHA-256">83F8C050D00C989F9FB4BF05A9D2C1911253CD98F5893E5083CAF05321720D39</digest> 
+        <digest type="SHA-1">1A5C75663CEE2BE998794EF6F35B28D37BBAD37C</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_7of12.zip</name>
+        <size>558807330</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_7of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_7of12.zip]]></download_url> 
+        <digest type="MD5">28E4991CB948B603A7B07EA2978F1E51</digest> 
+        <digest type="SHA-256">AACA8C67CEB983318BDE3D1BAF32B4FD56E42F9330E4B1A38E35F6FAB6813677</digest> 
+        <digest type="SHA-1">CE9CFEF7261FB06072D406632E0BDB1A72ED411F</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_8of12.zip</name>
+        <size>3314133563</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_8of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_8of12.zip]]></download_url> 
+        <digest type="MD5">C31B1B4CC4787565258BECAC97EFB827</digest> 
+        <digest type="SHA-256">4747263C21203738E8912DFD55707472967D6095E14F1DD52BDC5F23F365A43E</digest> 
+        <digest type="SHA-1">8A94C1591057F0E1967DD24EFFEA9F6F6CC145F8</digest> 
+      </file> 
+      <file> 
+        <name>p26395910_1700_MSWIN-x86-64_9of12.zip</name>
+        <size>1540831197</size>
+        <download_url host="https://updates.oracle.com"><![CDATA[/Orion/Services/download/p26395910_1700_MSWIN-x86-64_9of12.zip?aru=21410708&patch_file=p26395910_1700_MSWIN-x86-64_9of12.zip]]></download_url> 
+        <digest type="SHA-256">7FD2E0C3E2CF43CE3FE7CD194483D3B274F0A3CDA058587117A4BBC3DB003F5A</digest> 
+        <digest type="SHA-1">3CC0D155E5431EA9363E6D524027F0095D2F614B</digest> 
+        <digest type="MD5">3157501397C11072078587F2C7D19AF5</digest> 
+      </file> 
+    </files> 
+    <updated_date in_epoch_ms="1501512270000">2017-07-31 14:44:30</updated_date> 
+    <released_date in_epoch_ms="1499286269000">2017-07-05 20:24:29</released_date> 
+  </patch> 
+</results>
