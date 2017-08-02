@@ -1,0 +1,3 @@
+- hosts: siebel-webtier
+  roles:
+    - siebel-webtier

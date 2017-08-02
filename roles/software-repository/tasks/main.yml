@@ -29,6 +29,19 @@
   loop_control:
     loop_var: product
 
+- name: create directory license_codes
+  file:
+    path: "{{software_repository_path}}/license_codes"
+    state: directory
+    mode: 0755
+
+- name: download licence codes
+  get_url:
+    url: http://www.oracle.com/ocom/groups/public/@ocom/documents/webcontent/license_code.xml
+    dest: "{{software_repository_path}}/license_codes/"
+    timeout: 20
+    force: no
+
 - name: install jdk
   include: install-jdk.yml
   when: ansible_distribution != "AIX"

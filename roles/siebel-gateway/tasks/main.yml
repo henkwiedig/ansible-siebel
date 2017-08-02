@@ -47,7 +47,8 @@
     group: sse_role
   with_items:
     - "{{siebel_base_path}}"
-    - "{{siebel_base_path}}/gw/oraInventory/"
+    - "{{siebel_base_path}}/gw/oraInventory"
+    - "{{siebel_base_path}}/sfs"	
 
 - name: create siebel gw oraInventory
   blockinfile:

@@ -1,3 +1,13 @@
+- name: create dbenv.sh
+  shell : "source /home/siebel/.bash_profile && ./CreateDbSrvrEnvScript {{siebel_base_path}}/ses/16.0.0.0.0/ses ENU Oracle"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    chdir: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/install_script/install"
+    executable: "/usr/bin/bash"
+    creates: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbenv.sh"
+
 - name: template create tablespaces sql
   template: 
     src: roles/siebel-server/files/create_tablespace.sql.j2
@@ -25,6 +35,21 @@
 
 - name: run grantusr sql
   shell : "source /home/siebel/.bash_profile && echo '{{oracle_passwd}}'| sqlplus system@orcl @/tmp/grantusr.sql"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+
+- name: template install_db_master.ucf
+  template: 
+    src: roles/siebel-server/files/install_db_master.ucf.j2
+    dest: "/tmp/install_db_master.ucf"
+    owner: "siebel"
+    group: "sse_role"
+
+- name: create siebel database
+  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbenv.sh && srvrupgwiz /m /tmp/install_db_master.ucf"
   become: true
   become_user: siebel
   become_method: su

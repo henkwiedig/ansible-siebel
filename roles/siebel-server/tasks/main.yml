@@ -108,15 +108,37 @@
     executable: "/usr/bin/bash"
     creates: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/cfgenv.sh"
 
-- name: create dbenv.sh
-  shell : "source /home/siebel/.bash_profile && ./CreateDbSrvrEnvScript {{siebel_base_path}}/ses/16.0.0.0.0/ses ENU Oracle"
+- name: template .odbc.ini
+  template: 
+    src: roles/siebel-server/files/odbc.ini.j2
+    dest: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/sys/.odbc.ini"
+    owner: "siebel"
+    group: "sse_role"
+
+- name: check existing siebel database
+  shell : "source /home/siebel/.bash_profile && echo 'select name from siebel.s_repository;' | sqlplus sadmin/nimdas@orcl"
   become: true
   become_user: siebel
   become_method: su
   args:
-    chdir: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/install_script/install"
     executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbenv.sh"	
+  register: siebel_database_exists
 
 - name: create siebel database
   include: create-siebel-database.yml
+  when: siebel_database_exists.stdout.find("Siebel Repository") == -1
+
+- name: template config siebelserver response file
+  template: 
+    src: roles/siebel-server/files/config-siebelserver-{{siebel_version}}.rsp.j2
+    dest: /tmp/config-siebelserver-{{siebel_version}}.rsp
+
+- name: config siebelserver
+  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/cfgenv.sh && ./config.sh -mode siebsrvr -responseFile /tmp/config-siebelserver-{{siebel_version}}.rsp"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    chdir: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/config"
+    executable: "/usr/bin/bash"
+    creates: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/sys/svc.siebsrvr.SBA_82:{{ansible_hostname}}"

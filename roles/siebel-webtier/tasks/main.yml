@@ -1,0 +1,215 @@
+---
+# tasks file for siebel webtier
+- name: enable nfs-related services
+  service:
+   name: "{{ item }}"
+   enabled: true
+   state: started
+  with_items:
+  - rpcbind
+  - nfs-lock
+  when: ansible_distribution != "AIX"
+
+- name: mount repository on linux
+  mount:
+    name: "/mnt{{ software_repository_path }}"
+    src: "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}:{{ software_repository_path }}"
+    fstype: nfs
+    state: mounted
+  when: ansible_distribution != "AIX"
+
+- name: mount repository on aix
+  command: /usr/sbin/mknfsmnt -f "/mnt{{ software_repository_path }}" -d "{{ software_repository_path }}" -h "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}" -M sys -N -a -t rw -w bg -Y -Z -X -H -j -q -g
+  when: ansible_distribution == "AIX"
+
+- name: create groups
+  group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - sse_role
+
+- name: create user
+  user:
+    name: "{{ item }}"
+    state: present
+    group: sse_role
+    groups: sse_role,oinstall
+  with_items:
+    - siebel
+
+- name: create ohs base
+  file:
+    path: "{{item}}"
+    state: directory
+    mode: 0775
+    owner: siebel
+    group: sse_role
+  with_items:
+    - "{{siebel_base_path}}"
+    - "{{siebel_base_path}}/wt/oraInventory/"
+    - "{{siebel_base_path}}/swe/oraInventory/"
+
+- name: create siebel ohs oraInventory
+  blockinfile:
+    path: "{{siebel_base_path}}/wt/oraInventory/oraInst.loc"
+    create: yes
+    mode: 0775
+    owner: siebel
+    group: sse_role
+    block: |
+       inventory_loc={{siebel_base_path}}/wt/oraInventory
+       inst_group=siebel
+
+- name: create siebel swe oraInventory
+  blockinfile:
+    path: "{{siebel_base_path}}/swe/oraInventory/oraInst.loc"
+    create: yes
+    mode: 0775
+    owner: siebel
+    group: sse_role
+    block: |
+       inventory_loc={{siebel_base_path}}/swe/oraInventory
+       inst_group=siebel
+
+- name: get java_home on linux
+  find:
+    paths: "/opt/"
+    patterns: "jdk*"
+    file_type: directory
+  register: java_home
+  when: ansible_distribution != "AIX"
+  
+- name: get java_home on aix
+  find:
+    paths: "/usr/"
+    patterns: "java71_64"
+    file_type: directory
+  register: java_home
+  when: ansible_distribution == "AIX"
+
+- name: create siebel .bash_profile
+  blockinfile:
+    path: /home/siebel/.bash_profile
+    create: yes
+    block: |	   
+       # Oracle Settings
+       TMP={{siebel_base_path}}/tmp; export TMP
+       TMPDIR=$TMP; export TMPDIR
+       ORACLE_BASE={{siebel_base_path}}/oracle_client; export ORACLE_BASE
+       ORACLE_HOME={{siebel_base_path}}/oracle_client/client; export ORACLE_HOME
+       ORACLE_SID=orcl; export ORACLE_SID
+       PATH=/usr/sbin:$PATH; export PATH
+       PATH=$ORACLE_HOME/bin:$PATH; export PATH
+       LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+       export LIBPATH=$LD_LIBRARY_PATH
+       RESOLV_MULTI=off ; export RESOLV_MULTI
+
+- name: template install ohs response file
+  template: 
+    src: "roles/siebel-webtier/files/ohs-{{ohs_version}}-install.rsp.j2"
+    dest: "/tmp/ohs-{{ohs_version}}-install.rsp"
+
+- name: install ohs
+  shell : "export TMP={{siebel_base_path}}/tmp && echo y | ./runInstaller -ignoreSysPrereqs -silent -waitforcompletion -responseFile /tmp/ohs-{{ohs_version}}-install.rsp -jreloc {{java_home.files[0].path}} -invPtrLoc {{siebel_base_path}}/wt/oraInventory/oraInst.loc"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    chdir: "{{ software_repository_path }}/ohs-{{target_platform}}-{{ohs_version}}/unarchive/Disk1/install/{{target_platform}}"
+    executable: "/usr/bin/bash"
+    creates: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1"
+
+- name: template install ses response file
+  template: 
+    src: roles/siebel-webtier/files/siebel-{{siebel_version}}-install-swe.rsp.j2
+    dest: /tmp/siebel-{{siebel_version}}-install-swe.rsp
+
+- name: install swe
+  shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-swe.rsp -jreloc {{java_home.files[0].path}} -invPtrLoc {{siebel_base_path}}/swe/oraInventory/oraInst.loc"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    chdir: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/16.0.0.0/AIX/Server/Siebel_Web_Server_Extension/Disk1/install"
+    executable: "/usr/bin/bash"
+    creates: "{{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/cfgenv.sh"
+
+- name: template apply swe profile response file
+  template: 
+    src: roles/siebel-webtier/files/siebel-{{siebel_version}}-apply-swe-profile.rsp.j2
+    dest: /tmp/siebel-{{siebel_version}}-apply-swe-profile.rsp
+
+- name: apply swe profile
+  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/cfgenv.sh && ./config.sh -mode swse -responseFile /tmp/siebel-{{siebel_version}}-apply-swe-profile.rsp"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    chdir: "{{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/config"
+    executable: "/usr/bin/bash"
+    creates: "{{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/bin/eapps.cfg"
+
+- name: patch httpd
+  lineinfile:
+    path: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/ohs/conf/httpd.conf"
+    regexp: "^LoadModule swe_module"
+    line: "LoadModule swe_module {{siebel_base_path}}/wt/Middleware/Oracle_WT1/ohs/modules/libmod_swe.so"
+
+- name: enable non-root well-knonw ports start
+  file:
+    path: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/ohs/bin/.apachectl"
+    mode: 6750
+    owner: root 
+    group: sse_role
+
+- name: setup http env
+  blockinfile:
+    path: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/ohs/bin/apachectl"
+    insertafter: "#set ulimit for OHS to dump core when it crashes"
+    block: |	   
+        LD_LIBRARY_PATH={{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/bin/:{{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/bin/eappweb/bin/enu
+        export LD_LIBRARY_PATH
+        export LIBPATH=$LIBPATH:$LD_LIBRARY_PATH
+        RESOLV_MULTI=off
+        export RESOLV_MULTI
+
+- name: ohs deleteinstance
+  shell : "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/opmn/bin/opmnctl deleteinstance -force true"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+    removes: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/instances/instance1/config/OPMN/opmn/opmn.xml"
+  environment:
+    LD_LIBRARY_PATH: "{{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/bin"
+    ORACLE_HOME: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1"
+    ORACLE_INSTANCE: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/instances/instance1"
+
+
+- name: ohs createinstance
+  shell : "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/opmn/bin/opmnctl createinstance -adminRegistration OFF"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+    creates: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/instances/instance1/config/OPMN/opmn/opmn.xml"
+  environment:
+    LD_LIBRARY_PATH: "{{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/bin"
+    ORACLE_HOME: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1"
+    ORACLE_INSTANCE: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/instances/instance1"
+  
+
+- name: ohs createcomponent
+  shell : "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/opmn/bin/opmnctl createcomponent -componentType OHS -componentName ohs1"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+  environment:
+    LD_LIBRARY_PATH: "{{siebel_base_path}}/swe/Siebel/16.0.0.0.0/eappweb/bin"
+    ORACLE_HOME: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1"
+    ORACLE_INSTANCE: "{{siebel_base_path}}/wt/Middleware/Oracle_WT1/instances/instance1"
