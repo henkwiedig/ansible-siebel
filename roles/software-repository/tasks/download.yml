@@ -3,7 +3,6 @@
     path: "{{software_repository_path}}/{{product}}/download"
     state: directory
     mode: 0755
-  register: create_directory	
 
 - name: get file from mos
   get_url:
@@ -13,5 +12,5 @@
     headers: "User-Agent:Mozilla/5.0,Cookie:{{ou_cookie.set_cookie.split(';')[3].split(', ')[2]}}"
     checksum: "md5:{{ item.split(';')[3] }}"
     timeout: 20
+    force: no
   with_lines: "xsltproc files/mos-patch-metadata.xslt files/{{product}}.xml"
-  when: create_directory.changed == true
