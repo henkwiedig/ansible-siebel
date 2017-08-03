@@ -1,12 +1,12 @@
 - name: create dbenv.sh
-  shell : "source /home/siebel/.bash_profile && ./CreateDbSrvrEnvScript {{siebel_base_path}}/ses/16.0.0.0.0/ses ENU Oracle"
+  shell : "source /home/siebel/.bash_profile && ./CreateDbSrvrEnvScript {{siebel_base_path}}/ses/Siebel/ses ENU Oracle"
   become: true
   become_user: siebel
   become_method: su
   args:
-    chdir: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/install_script/install"
+    chdir: "{{siebel_base_path}}/ses/Siebel/ses/siebsrvr/install_script/install"
     executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbenv.sh"
+    creates: "{{siebel_base_path}}/ses/Siebel/ses/siebsrvr/dbenv.sh"
 
 - name: template create tablespaces sql
   template: 
@@ -49,7 +49,7 @@
     group: "sse_role"
 
 - name: create siebel database
-  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbenv.sh && srvrupgwiz /m /tmp/install_db_master.ucf"
+  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/ses/Siebel/ses/siebsrvr/dbenv.sh && srvrupgwiz /m /tmp/install_db_master.ucf"
   become: true
   become_user: siebel
   become_method: su

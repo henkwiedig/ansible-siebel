@@ -12,7 +12,6 @@
     - siebel-win-{{siebel_version}}
     - oracle-{{target_platform}}-{{oracle_version}}
     - oracle-client-{{target_platform}}-{{oracle_client_version}}
-    - ohs-{{target_platform}}-{{ohs_version}}
     - jdk-{{jdk_version}}
   loop_control:
     loop_var: product
@@ -24,7 +23,6 @@
     - siebel-win-{{siebel_version}}
     - oracle-{{target_platform}}-{{oracle_version}}
     - oracle-client-{{target_platform}}-{{oracle_client_version}}
-    - ohs-{{target_platform}}-{{ohs_version}}
     - jdk-{{jdk_version}}
   loop_control:
     loop_var: product

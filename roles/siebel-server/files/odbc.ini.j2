@@ -1,25 +1,25 @@
 [ODBC]
-TraceDll={{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/lib/SEtrc27.so
+TraceDll={{siebel_base_path}}/ses/Siebel/ses/siebsrvr/lib/SEtrc27.so
 TraceFile=odbctrace.out
 Trace=0
-InstallDir={{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr
+InstallDir={{siebel_base_path}}/ses/Siebel/ses/siebsrvr
 
 [ODBC Data Sources]
 SBA_82_DSN=MERANT 7.1 Oracle 12 Driver
 
 [SBA_82_DSN]
-Driver={{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/lib/SEor827.so
+Driver={{siebel_base_path}}/ses/Siebel/ses/siebsrvr/lib/SEor827.so
 ColumnSizeAsCharacter=1
 ColumnsAsChar=1
 ArraySize=160000
 ServerName=orcl
 
 [sany_SBA_82_$(SiebelServer)]
-Database={{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbtempl/siebel.dbf
-Driver={{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/SYBSsa90/lib/libdbodbc9.so
+Database={{siebel_base_path}}/ses/Siebel/ses/siebsrvr/dbtempl/siebel.dbf
+Driver={{siebel_base_path}}/ses/Siebel/ses/siebsrvr/SYBSsa90/lib/libdbodbc9.so
 Description=SQL Anywhere
 
 [sany_SBA_82_]
 Description=SQL Anywhere
-Driver={{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/SYBSsa90/lib/libdbodbc9.so
-Database={{siebel_base_path}}/ses/16.0.0.0.0/ses/siebsrvr/dbtempl/siebel.dbf
+Driver={{siebel_base_path}}/ses/Siebel/ses/siebsrvr/SYBSsa90/lib/libdbodbc9.so
+Database={{siebel_base_path}}/ses/Siebel/ses/siebsrvr/dbtempl/siebel.dbf

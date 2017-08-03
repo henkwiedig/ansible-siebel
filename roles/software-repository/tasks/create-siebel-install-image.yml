@@ -44,7 +44,6 @@
     JAVA_HOME: "{{java_home.files[0].path}}"
     LANG: "C"
 
-
 - name: run snic.sh sample
   command: ./snic.sh -silent -responseFile /tmp/siebel-sample.rsp
   args:
