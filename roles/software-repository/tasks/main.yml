@@ -47,7 +47,7 @@
     path: /etc/exports
     line: "{{ software_repository_path }}        *(rw)"
     create: yes
-  when: ansible_distribution != "AIX"	
+  when: ansible_distribution != "AIX"
 
 - name: enable service nfs-server linux
   systemd:
