@@ -98,6 +98,8 @@
     src: roles/siebel-ai/files/siebel-{{siebel_version}}-install-ai.rsp.j2
     dest: /tmp/siebel-{{siebel_version}}-install-ai.rsp
 #TODO create chain of trust
+#TODO Install unrestrictedpolicyfiles.zip in JAVA Home
+#TODO ln -s /usr/java8_64/jre /opt/siebel/ai/Siebel/jre
 - name: install appinterface
   shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-ai.rsp -jreloc {{java_home.files[0].path}} -invPtrLoc {{siebel_base_path}}/ai/oraInventory/oraInst.loc"
   become: true
@@ -106,4 +108,4 @@
   args:
     chdir: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/{{siebel_version}}/AIX/Server/Siebel_Enterprise_Server/Disk1/install"
     executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/ai/install"
+    creates: "{{siebel_base_path}}/ai/Siebel"

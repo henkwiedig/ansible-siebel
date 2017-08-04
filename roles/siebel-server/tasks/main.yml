@@ -129,6 +129,7 @@
   when: siebel_database_exists.stdout.find("Siebel Repository") == -1
 
 #- name: template config siebelserver response file
+#
 #  template: 
 #    src: roles/siebel-server/files/config-siebelserver-{{siebel_version}}.rsp.j2
 #    dest: /tmp/config-siebelserver-{{siebel_version}}.rsp

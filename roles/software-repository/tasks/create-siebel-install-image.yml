@@ -3,10 +3,10 @@
     src: roles/software-repository/files/siebel-{{target_platform}}.rsp.j2
     dest: /tmp/sisbel-{{target_platform}}.rsp
 
-- name: template snic file sample database
+- name: template snic file win
   template: 
-    src: roles/software-repository/files/siebel-sample.rsp.j2
-    dest: /tmp/siebel-sample.rsp
+    src: roles/software-repository/files/siebel-win.rsp.j2
+    dest: /tmp/siebel-win.rsp
 
 - name: get java_home for snic on linux
   find:
@@ -29,10 +29,10 @@
     path: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/products.txt"
   register: server_install_image
 
-- name: check if we ran before sample
+- name: check if we ran before win
   stat:
     path: "{{ software_repository_path }}/siebel-win-{{ siebel_version }}/Siebel_Install_Image/products.txt"
-  register: sample_install_image
+  register: win_install_image
 
 - name: run snic.sh server
   command: ./snic.sh -silent -responseFile /tmp/sisbel-{{target_platform}}.rsp
@@ -44,12 +44,12 @@
     JAVA_HOME: "{{java_home.files[0].path}}"
     LANG: "C"
 
-- name: run snic.sh sample
-  command: ./snic.sh -silent -responseFile /tmp/siebel-sample.rsp
+- name: run snic.sh win
+  command: ./snic.sh -silent -responseFile /tmp/siebel-win.rsp
   args:
     chdir: "{{ software_repository_path }}/siebel-win-{{ siebel_version }}/unarchive"
   when:
-    sample_install_image.stat.exists == false
+    win_install_image.stat.exists == false
   environment:
     JAVA_HOME: "{{java_home.files[0].path}}"
     LANG: "C"
