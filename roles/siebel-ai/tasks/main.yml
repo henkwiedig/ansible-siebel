@@ -80,7 +80,7 @@
   blockinfile:
     path: /home/siebel/.bash_profile
     create: yes
-    block: |	   
+    block: |
        # Oracle Settings
        TMP={{siebel_base_path}}/tmp; export TMP
        TMPDIR=$TMP; export TMPDIR
