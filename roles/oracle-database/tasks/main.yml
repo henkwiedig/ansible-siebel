@@ -38,7 +38,7 @@
 
 - name: mount repository on aix
   command: /usr/sbin/mknfsmnt -f "/mnt{{ software_repository_path }}" -d "{{ software_repository_path }}" -h "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}" -M sys -N -a -t rw -w bg -Y -Z -X -H -j -q -g
-  when: ansible_distribution == "AIX"	
+  when: ansible_distribution == "AIX"
   
 - name: create groups
   group:
@@ -74,7 +74,7 @@
     - "{{ limit_items }}"
     - "{{ limit_types }}"
     - "{{ limit_values }}"  
-  when: ansible_distribution != "AIX"	
+  when: ansible_distribution != "AIX"
   
 - name: set os limits for user on AIX
   command: "chuser {{item}}=-1 oracle"
@@ -96,7 +96,7 @@
     - "nofiles_hard"
     - "threads_hard"
     - "nproc_hard"
-  when: ansible_distribution == "AIX"	  
+  when: ansible_distribution == "AIX"
   
 - name: set sysctl_items
   set_fact:
@@ -212,7 +212,7 @@
   become_user: oracle
   become_method: su
   args:
-    executable: "/usr/bin/bash"	 	
+    executable: "/usr/bin/bash"
     creates: "{{oracle_base_path}}/base/product/12.1.0/dbhome_1/network/admin/listener.ora"
 
 - name: create autostart script
