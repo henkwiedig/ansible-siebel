@@ -1,7 +1,7 @@
 - name: template snic file server
   template: 
     src: roles/software-repository/files/siebel-{{target_platform}}.rsp.j2
-    dest: /tmp/sisbel-{{target_platform}}.rsp
+    dest: /tmp/siebel-{{target_platform}}.rsp
 
 - name: template snic file win
   template: 
@@ -35,7 +35,7 @@
   register: win_install_image
 
 - name: run snic.sh server
-  command: ./snic.sh -silent -responseFile /tmp/sisbel-{{target_platform}}.rsp
+  command: ./snic.sh -silent -responseFile /tmp/siebel-{{target_platform}}.rsp
   args:
     chdir: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/unarchive"
   when:
