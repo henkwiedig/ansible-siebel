@@ -1,5 +1,11 @@
 ---
 # tasks file for siebel application interface
+- name: install needed software
+  yum:
+    name: tcsh
+  when: ansible_distribution != "AIX"
+#TODO install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8
+
 - name: enable nfs-related services
   service:
    name: "{{ item }}"
