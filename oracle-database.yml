@@ -1,3 +1,4 @@
 - hosts: oracle-database
   roles:
+    - common-role
     - oracle-database

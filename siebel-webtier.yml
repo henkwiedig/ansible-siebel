@@ -1,3 +1,4 @@
 - hosts: siebel-webtier
   roles:
+    - common-role
     - siebel-webtier

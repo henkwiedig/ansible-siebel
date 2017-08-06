@@ -55,7 +55,7 @@
   become_method: su
   args:
     executable: "/usr/bin/bash"
-	
+
 - name: enable lic codes
   shell : "source /home/siebel/.bash_profile && echo 'update siebel.s_app_key set INACTIVE_FLG='N' where INACTIVE_FLG='Y';commit;'| sqlplus sadmin/nimdas@orcl"
   become: true

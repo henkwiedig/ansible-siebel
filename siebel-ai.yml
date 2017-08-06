@@ -1,3 +1,4 @@
 - hosts: siebel-ai
   roles:
+    - common-role
     - siebel-ai

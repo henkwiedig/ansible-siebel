@@ -1,61 +1,6 @@
 ---
 # tasks file for orcle client
-- name: install needed software
-  yum:
-    name: "{{item}}"
-  when: ansible_distribution != "AIX"
-  with_items:
-    - libstdc++.i686
-    - glibc.i686
 
-- name: enable nfs-related services
-  service:
-   name: "{{ item }}"
-   enabled: true
-   state: started
-  with_items:
-  - rpcbind
-  - nfs-lock
-  when: ansible_distribution != "AIX"
-
-- name: mount repository on linux
-  mount:
-    name: "/mnt{{ software_repository_path }}"
-    src: "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}:{{ software_repository_path }}"
-    fstype: nfs
-    state: mounted
-  when: ansible_distribution != "AIX"
-
-- name: mount repository on aix
-  command: /usr/sbin/mknfsmnt -f "/mnt{{ software_repository_path }}" -d "{{ software_repository_path }}" -h "{{ hostvars[groups['repository-server'][0]]['ansible_default_ipv4']['address'] }}" -M sys -N -a -t rw -w bg -Y -Z -X -H -j -q -g
-  when: ansible_distribution == "AIX"
-
-- name: create groups
-  group:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - sse_role
-
-- name: create user
-  user:
-    name: "{{ item }}"
-    state: present
-    group: sse_role
-    groups: sse_role,oinstall
-  with_items:
-    - siebel
-
-- name: create siebel_base
-  file:
-    path: "{{item}}"
-    state: directory
-    mode: 0775
-    owner: siebel
-    group: sse_role
-  with_items:
-    - "{{siebel_base_path}}"
-    - "{{siebel_base_path}}/oracle_client/oraInventory"
 
 - name: create siebel gw oraInventory
   blockinfile:
@@ -68,38 +13,6 @@
        inventory_loc={{siebel_base_path}}/oracle_client/oraInventory
        inst_group=siebel
 
-- name: get java_home on linux
-  find:
-    paths: "/opt/"
-    patterns: "jdk*"
-    file_type: directory
-  register: java_home
-  when: ansible_distribution != "AIX"
-  
-- name: get java_home on aix
-  find:
-    paths: "/usr/"
-    patterns: "java71_64"
-    file_type: directory
-  register: java_home
-  when: ansible_distribution == "AIX"
-
-- name: create siebel .bash_profile
-  blockinfile:
-    path: /home/siebel/.bash_profile
-    create: yes
-    block: |
-       # Oracle Settings
-       TMP={{siebel_base_path}}/tmp; export TMP
-       TMPDIR=$TMP; export TMPDIR
-       ORACLE_BASE={{siebel_base_path}}/oracle_client; export ORACLE_BASE
-       ORACLE_HOME={{siebel_base_path}}/oracle_client/client; export ORACLE_HOME
-       ORACLE_SID=orcl; export ORACLE_SID
-       PATH=/usr/sbin:$PATH; export PATH
-       PATH=$ORACLE_HOME/bin:$PATH; export PATH
-       LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
-       export LIBPATH=$LD_LIBRARY_PATH
-       RESOLV_MULTI=off ; export RESOLV_MULTI
 
 - name: template oracle_client response file
   template: 

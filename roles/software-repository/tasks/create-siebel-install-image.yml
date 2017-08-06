@@ -41,7 +41,7 @@
   when:
     server_install_image.stat.exists == false
   environment:
-    JAVA_HOME: "{{java_home.files[0].path}}"
+    JAVA_HOME: "{{java_home}}"
     LANG: "C"
 
 - name: run snic.sh win
@@ -51,7 +51,7 @@
   when:
     win_install_image.stat.exists == false
   environment:
-    JAVA_HOME: "{{java_home.files[0].path}}"
+    JAVA_HOME: "{{java_home}}"
     LANG: "C"
 
 

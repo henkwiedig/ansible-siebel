@@ -1,4 +1,5 @@
 - hosts: siebel-server
   roles:
+    - common-role
     - oracle-client
     - siebel-server
