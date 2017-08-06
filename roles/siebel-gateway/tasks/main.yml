@@ -48,20 +48,7 @@
   with_items:
     - "{{siebel_base_path}}"
     - "{{siebel_base_path}}/gw/oraInventory"
-    - "{{siebel_base_path}}/sfs"	
-#    - "{{siebel_base_path}}/gw/Siebel/gtwysrvr/lib"	
-
-#TODO workarounf install bug
-#- name: create empty file
-#  file:
-#    path: "{{item}}"
-#    mode: 0775
-#    state: touch
-#    owner: siebel
-#    group: sse_role
-#  with_items:
-#    - "{{siebel_base_path}}/gw/Siebel/gtwysrvr/lib/libxalan-c.so"		
-#    - "{{siebel_base_path}}/gw/Siebel/gtwysrvr/lib/libxalanMsg.so"
+    - "{{siebel_base_path}}/sfs"
 
 - name: create siebel gw oraInventory
   blockinfile:
@@ -94,7 +81,7 @@
   blockinfile:
     path: /home/siebel/.bash_profile
     create: yes
-    block: |	   
+    block: |
        # Oracle Settings
        TMP={{siebel_base_path}}/tmp; export TMP
        TMPDIR=$TMP; export TMPDIR

@@ -1,5 +1,13 @@
 ---
 # tasks file for orcle client
+- name: install needed software
+  yum:
+    name: "{{item}}"
+  when: ansible_distribution != "AIX"
+  with_items:
+    - libstdc++.i686
+    - glibc.i686
+
 - name: enable nfs-related services
   service:
    name: "{{ item }}"
@@ -80,7 +88,7 @@
   blockinfile:
     path: /home/siebel/.bash_profile
     create: yes
-    block: |	   
+    block: |
        # Oracle Settings
        TMP={{siebel_base_path}}/tmp; export TMP
        TMPDIR=$TMP; export TMPDIR
