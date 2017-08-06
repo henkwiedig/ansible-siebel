@@ -99,13 +99,14 @@
     src: roles/siebel-gateway/files/siebel-{{siebel_version}}-install-gw.rsp.j2
     dest: /tmp/siebel-{{siebel_version}}-install-gw.rsp
 #TODO create chain of trust
+#TODO use correct java path
 - name: install gateway
-  shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-gw.rsp -jreloc {{java_home.files[0].path}} -invPtrLoc {{siebel_base_path}}/gw/oraInventory/oraInst.loc"
+  shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-gw.rsp -jreloc /opt/jdk{{jdk_version}} -invPtrLoc {{siebel_base_path}}/gw/oraInventory/oraInst.loc"
   become: true
   become_user: siebel
   become_method: su
   args:
-    chdir: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/{{siebel_version}}/AIX/Server/Siebel_Enterprise_Server/Disk1/install"
+    chdir: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/{{siebel_version}}/{{target_platform}}/Server/Siebel_Enterprise_Server/Disk1/install"
     executable: "/usr/bin/bash"
     creates: "{{siebel_base_path}}/gw/{{siebel_version}}.0/ses/gtwysrvr/cfgenv.sh"
 
