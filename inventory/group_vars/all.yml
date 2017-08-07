@@ -5,10 +5,12 @@ oracle_client_version: 12.1.0.2.0
 ohs_version: 11.1.1.9.0
 jdk_version: 1.8.0_144
 
-target_platform: aix
+target_platform: AIX
 
 software_repository_path: /opt/siebel/software_repository
 oracle_base_path: /opt/siebel/oracle
 oracle_passwd: "Oracle$123"
 
 siebel_base_path: /opt/siebel
+
+java_home: /usr/java8_64

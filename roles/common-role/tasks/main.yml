@@ -62,23 +62,6 @@
   with_items:
     - siebel
 
-- name: create siebel_base
-  file:
-    path: "{{item}}"
-    state: directory
-    mode: 0775
-    owner: siebel
-    group: sse_role
-  with_items:
-    - "{{siebel_base_path}}"
-    - "{{siebel_base_path}}/oracle_client/oraInventory"
-    - "{{siebel_base_path}}/ai/oraInventory"
-    - "{{siebel_base_path}}/gw/oraInventory"
-    - "{{siebel_base_path}}/sfs"
-    - "{{siebel_base_path}}/ses/oraInventory/"
-    - "{{siebel_base_path}}/wt/oraInventory/"
-    - "{{siebel_base_path}}/swe/oraInventory/"
-
 - name: create siebel .bash_profile
   blockinfile:
     path: /home/siebel/.bash_profile
@@ -199,12 +182,12 @@
   - firewalld
   when: ansible_distribution != "AIX"
 
-- name: set java_home linux
-  set_fact: java_home="/opt/jdk1.8.0_144"
+- name: copy UnlimitedJCEPolicyJDK8 files
+  copy:
+    src: "{{ software_repository_path }}/jce/unarchive/UnlimitedJCEPolicyJDK8/{{item}}"
+    dest: "{{java_home}}/jre/lib/security/"
+    remote_src: true
+  with_items:
+    - local_policy.jar
+    - US_export_policy.jar
   when: ansible_distribution != "AIX"
-
-- name: set java_home aix
-  set_fact: java_home="/usr/java8_64"
-  when: ansible_distribution == "AIX"
-
-

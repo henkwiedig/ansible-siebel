@@ -1,5 +1,17 @@
 ---
 # tasks file for siebel server
+
+- name: create siebel_base
+  file:
+    path: "{{item}}"
+    state: directory
+    mode: 0775
+    owner: siebel
+    group: sse_role
+  with_items:
+    - "{{siebel_base_path}}"
+    - "{{siebel_base_path}}/ses/oraInventory/"
+
 - name: create siebel ses oraInventory
   blockinfile:
     path: "{{siebel_base_path}}/ses/oraInventory/oraInst.loc"

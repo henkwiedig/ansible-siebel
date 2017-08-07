@@ -7,23 +7,7 @@
   template: 
     src: roles/software-repository/files/siebel-win.rsp.j2
     dest: /tmp/siebel-win.rsp
-
-- name: get java_home for snic on linux
-  find:
-    paths: "/opt/"
-    patterns: "jdk*"
-    file_type: directory
-  register: java_home
-  when: ansible_distribution != "AIX"
-  
-- name: get java_home for snic on aix
-  find:
-    paths: "/usr/"
-    patterns: "java71_64"
-    file_type: directory
-  register: java_home
-  when: ansible_distribution == "AIX"  
-
+ 
 - name: check if we ran before server
   stat:
     path: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/products.txt"

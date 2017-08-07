@@ -1,5 +1,18 @@
 ---
 # tasks file for siebel gateway
+
+- name: create siebel_base
+  file:
+    path: "{{item}}"
+    state: directory
+    mode: 0775
+    owner: siebel
+    group: sse_role
+  with_items:
+    - "{{siebel_base_path}}"
+    - "{{siebel_base_path}}/gw/oraInventory"
+    - "{{siebel_base_path}}/sfs"
+
 - name: create siebel gw oraInventory
   blockinfile:
     path: "{{siebel_base_path}}/gw/oraInventory/oraInst.loc"
@@ -16,58 +29,164 @@
     src: roles/siebel-gateway/files/siebel-{{siebel_version}}-install-gw.rsp.j2
     dest: /tmp/siebel-{{siebel_version}}-install-gw.rsp
 #TODO create chain of trust
-#TODO use correct java path
 - name: install gateway
-  shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-gw.rsp -jreloc /opt/jdk{{jdk_version}} -invPtrLoc {{siebel_base_path}}/gw/oraInventory/oraInst.loc"
+  shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-gw.rsp -jreloc {{java_home}} -invPtrLoc {{siebel_base_path}}/gw/oraInventory/oraInst.loc"
   become: true
   become_user: siebel
   become_method: su
   args:
     chdir: "{{ software_repository_path }}/siebel-{{target_platform}}-{{ siebel_version }}/Siebel_Install_Image/{{siebel_version}}/{{target_platform}}/Server/Siebel_Enterprise_Server/Disk1/install"
     executable: "/usr/bin/bash"
-    creates: "{{siebel_base_path}}/gw/{{siebel_version}}.0/ses/gtwysrvr/cfgenv.sh"
+    creates: "{{siebel_base_path}}/gw/Siebel/gtwysrvr/cfgenv.sh"
+    
+- name: wait for tomcat to come up
+  wait_for:
+    port: 8092
+    delay: 10
+    state: started
 
-#- name: template config gateway response file
-#  template: 
-#    src: roles/siebel-gateway/files/siebel-{{siebel_version}}-config-gw.rsp.j2
-#    dest: /tmp/siebel-{{siebel_version}}-config-gw.rsp
-#
-#- name: config gateway
-#  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/cfgenv.sh && ./config.sh -mode enterprise  -responseFile /tmp/siebel-{{siebel_version}}-config-gw.rsp"
-#  become: true
-#  become_user: siebel
-#  become_method: su
-#  args:
-#    chdir: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/config"
-#    executable: "/usr/bin/bash"
-#    creates: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/sys/siebns.dat"
-#
-#- name: template config enterprise response file
-#  template: 
-#    src: roles/siebel-gateway/files/siebel-{{siebel_version}}-config-enterprise.rsp.j2
-#    dest: /tmp/siebel-{{siebel_version}}-config-enterprise.rsp
-#
-#- name: config enterprise
-#  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/siebenv.sh && ./config.sh -mode enterprise  -responseFile /tmp/siebel-{{siebel_version}}-config-enterprise.rsp"
-#  become: true
-#  become_user: siebel
-#  become_method: su
-#  args:
-#    chdir: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/config"
-#    executable: "/usr/bin/bash"
-#    creates: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/fs/att"
-#
-#- name: template config swe_profile response file
-#  template: 
-#    src: roles/siebel-gateway/files/siebel-{{siebel_version}}-config-swe_profile.rsp.j2
-#    dest: /tmp/siebel-{{siebel_version}}-config-swe_profile.rsp
-#
-#- name: config swe_profile
-#  shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/siebenv.sh && ./config.sh -mode enterprise  -responseFile /tmp/siebel-{{siebel_version}}-config-swe_profile.rsp"
-#  become: true
-#  become_user: siebel
-#  become_method: su
-#  args:
-#    chdir: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/config"
-#    executable: "/usr/bin/bash"
-#    creates: "{{siebel_base_path}}/gw/16.0.0.0.0/ses/gtwysrvr/admin/Webserver/eapps.cfg"	
+- name: gw initial setup
+  uri:
+    url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cginfo"
+    force_basic_auth: yes
+    user: sadmin
+    password: sadmin
+    validate_certs: no
+    method: POST
+    body_format: json
+    return_content: yes
+    body: 
+      CGHostURI: "{{ansible_hostname}}:8091"
+  environment:
+    https_proxy: ""
+  register: gw_initial_setup
+  
+- name: gw GatewaySecurityProfile
+  uri:
+    url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/GatewaySecurityProfile"
+    force_basic_auth: yes
+    user: sadmin
+    password: sadmin
+    validate_certs: no
+    method: POST
+    body_format: json
+    return_content: yes
+    body: 
+      Profile:
+        ProfileName: Siebel
+      SecurityConfigParams:
+        DataSources:
+          - Name: "orcl"
+            Type: "DB"
+            Host: "md1lrhenk"
+            Port: 1521
+            SqlStyle: "Oracle"
+            Endpoint: "orcl"
+            TableOwner: "SIEBEL"
+            HashUserPwd: false
+            HashAlgorithm: "SHA1"
+            CRC: ""
+        SecAdptName: "DBSecAdpt"
+        SecAdptMode: "DB"
+        NSAdminRole: ["Siebel Administrator"]
+        TestUserName: "sadmin"
+        TestUserPwd: "nimdas"
+        DBSecurityAdapterDataSource: "orcl"
+        DBSecurityAdapterPropagateChange: false
+  environment:
+    https_proxy: ""
+  register: GatewaySecurityProfile
+
+- name: gw bootstrapCG
+  uri:
+    url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/bootstrapCG"
+    force_basic_auth: yes
+    user: sadmin
+    password: nimdas
+    validate_certs: no
+    method: POST
+    body_format: json
+    return_content: yes
+    timeout: 120
+    body: 
+      registryPort: "2320"
+      registryUserName: "sadmin"
+      registryPassword: "nimdas"
+      PrimaryLanguage: "enu"
+  environment:
+    https_proxy: ""
+  register: bootstrapCG
+
+- name: shutdown gateway
+  shell : "source {{siebel_base_path}}/gw/Siebel/gtwysrvr/siebenv.sh && stop_ns && {{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/shutdown.sh"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+
+- name: wait for tomcat to stop
+  wait_for:
+    port: 8091
+    delay: 10
+    state: stopped
+
+- name: move vanilla jre out of the way
+  command: mv {{siebel_base_path}}/gw/Siebel/jre {{siebel_base_path}}/gw/Siebel/jre_orig
+  args:
+    creates: "{{siebel_base_path}}/gw/Siebel/jre_orig"
+
+- name: link system jre
+  file:
+    src: "{{java_home}}/jre"
+    dest: "{{siebel_base_path}}/gw/Siebel/jre"
+    state: link
+
+- name: start gateway
+  shell : "source {{siebel_base_path}}/gw/Siebel/gtwysrvr/siebenv.sh && start_ns && {{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/startup.sh"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+
+- name: wait for tomcat to start
+  wait_for:
+    port: 8092
+    delay: 10
+    state: started
+
+- name: create enterprise
+  uri:
+    url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/profiles/enterprises/"
+    force_basic_auth: yes
+    user: sadmin
+    password: nimdas
+    validate_certs: no
+    method: POST
+    body_format: json
+    return_content: yes
+    timeout: 120
+    body: 
+      EnterpriseConfigParams:
+        ServerFileSystem: "/opt/siebel/sfs"
+        UserName: "sadmin"
+        Password: "nimdas"
+        DatabasePlatform: "Oracle"
+        DBConnectString: "orcl"
+        DBUsername: "sadmin"
+        DBUserPasswd: "nimdas"
+        TableOwner: "SIEBEL"
+        SecAdptProfileName: "Gateway"
+        PrimaryLanguage: "enu"
+        Encrypt: "SISNAPITLS"
+        CACertFileName: "/opt/siebel/pki/truststore.jks"
+        KeyFileName: "/opt/siebel/pki/keystore.jks"
+        KeyFilePassword: "password"
+        PeerAuth: true
+        PeerCertValidation: true
+      Profile:
+        ProfileName: "Siebel"
+  environment:
+    https_proxy: ""
+  register: create_enterprise

@@ -59,3 +59,32 @@
 - name: export repository vio nfs on aix
   command: /usr/sbin/mknfsexp -d {{ software_repository_path }} -P -B -S "sys,krb5p,krb5i,krb5,dh" -t rw
   when: ansible_distribution == "AIX"
+  
+- name: create directory jce download dir
+  file:
+    path: "{{software_repository_path}}/jce/download"
+    state: directory
+    mode: 0755  
+
+- name: get Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8
+  get_url:
+    url: "http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip"
+    tmp_dest: "{{software_repository_path}}"
+    dest: "{{software_repository_path}}/jce/download"
+    headers: "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie"
+    timeout: 20
+    force: no
+
+- name: create directory jce unpack dir
+  file:
+    path: "{{software_repository_path}}/jce/unarchive"
+    state: directory
+    mode: 0755
+  register: jce_upacked
+
+- name: unarchive product jce
+  unarchive:
+    src: "{{software_repository_path}}/jce/download/jce_policy-8.zip"
+    dest: "{{software_repository_path}}/jce/unarchive"
+    remote_src: true
+  when: jce_upacked.changed == true
