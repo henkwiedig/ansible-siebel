@@ -28,6 +28,7 @@
   template: 
     src: roles/siebel-gateway/files/siebel-{{siebel_version}}-install-gw.rsp.j2
     dest: /tmp/siebel-{{siebel_version}}-install-gw.rsp
+
 #TODO create chain of trust
 - name: install gateway
   shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-gw.rsp -jreloc {{java_home}} -invPtrLoc {{siebel_base_path}}/gw/oraInventory/oraInst.loc"
@@ -40,6 +41,45 @@
     creates: "{{siebel_base_path}}/gw/Siebel/gtwysrvr/cfgenv.sh"
     
 - name: wait for tomcat to come up
+  wait_for:
+    port: 8092
+    delay: 10
+    state: started
+
+- name: shutdown gateway
+  shell : "{{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/shutdown.sh"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+
+- name: wait for tomcat to stop
+  wait_for:
+    port: 8091
+    delay: 10
+    state: stopped
+
+- name: move vanilla jre out of the way
+  command: mv {{siebel_base_path}}/gw/Siebel/jre {{siebel_base_path}}/gw/Siebel/jre_orig
+  args:
+    creates: "{{siebel_base_path}}/gw/Siebel/jre_orig"
+
+- name: link system jre
+  file:
+    src: "{{java_home}}/jre"
+    dest: "{{siebel_base_path}}/gw/Siebel/jre"
+    state: link
+
+- name: start gateway
+  shell : "{{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/startup.sh"
+  become: true
+  become_user: siebel
+  become_method: su
+  args:
+    executable: "/usr/bin/bash"
+
+- name: wait for tomcat to start
   wait_for:
     port: 8092
     delay: 10
@@ -78,7 +118,7 @@
         DataSources:
           - Name: "orcl"
             Type: "DB"
-            Host: "md1lrhenk"
+            Host: "{{ansible_hostname}}"
             Port: 1521
             SqlStyle: "Oracle"
             Endpoint: "orcl"
@@ -88,7 +128,8 @@
             CRC: ""
         SecAdptName: "DBSecAdpt"
         SecAdptMode: "DB"
-        NSAdminRole: ["Siebel Administrator"]
+        NSAdminRole: 
+          - "Siebel Administrator"
         TestUserName: "sadmin"
         TestUserPwd: "nimdas"
         DBSecurityAdapterDataSource: "orcl"
@@ -117,45 +158,6 @@
     https_proxy: ""
   register: bootstrapCG
 
-- name: shutdown gateway
-  shell : "source {{siebel_base_path}}/gw/Siebel/gtwysrvr/siebenv.sh && stop_ns && {{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/shutdown.sh"
-  become: true
-  become_user: siebel
-  become_method: su
-  args:
-    executable: "/usr/bin/bash"
-
-- name: wait for tomcat to stop
-  wait_for:
-    port: 8091
-    delay: 10
-    state: stopped
-
-- name: move vanilla jre out of the way
-  command: mv {{siebel_base_path}}/gw/Siebel/jre {{siebel_base_path}}/gw/Siebel/jre_orig
-  args:
-    creates: "{{siebel_base_path}}/gw/Siebel/jre_orig"
-
-- name: link system jre
-  file:
-    src: "{{java_home}}/jre"
-    dest: "{{siebel_base_path}}/gw/Siebel/jre"
-    state: link
-
-- name: start gateway
-  shell : "source {{siebel_base_path}}/gw/Siebel/gtwysrvr/siebenv.sh && start_ns && {{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/startup.sh"
-  become: true
-  become_user: siebel
-  become_method: su
-  args:
-    executable: "/usr/bin/bash"
-
-- name: wait for tomcat to start
-  wait_for:
-    port: 8092
-    delay: 10
-    state: started
-
 - name: create enterprise
   uri:
     url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/profiles/enterprises/"
@@ -169,7 +171,7 @@
     timeout: 120
     body: 
       EnterpriseConfigParams:
-        ServerFileSystem: "/opt/siebel/sfs"
+        ServerFileSystem: "{{siebel_base_path}}/sfs"
         UserName: "sadmin"
         Password: "nimdas"
         DatabasePlatform: "Oracle"
@@ -180,8 +182,8 @@
         SecAdptProfileName: "Gateway"
         PrimaryLanguage: "enu"
         Encrypt: "SISNAPITLS"
-        CACertFileName: "/opt/siebel/pki/truststore.jks"
-        KeyFileName: "/opt/siebel/pki/keystore.jks"
+        CACertFileName: "{{siebel_base_path}}/pki/truststore.jks"
+        KeyFileName: "{{siebel_base_path}}/pki/keystore.jks"
         KeyFilePassword: "password"
         PeerAuth: true
         PeerCertValidation: true

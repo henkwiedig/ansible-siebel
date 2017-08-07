@@ -1,0 +1,4 @@
+- hosts: gateway-server
+  roles:
+    - common-role
+    - oracle-client

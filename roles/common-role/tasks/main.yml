@@ -19,7 +19,12 @@
     - nfs-utils
     - rpcbind
     - tcsh
-
+    - glibc-devel.i686
+    - libgcc.i686
+    - libstdc++-devel.i686
+    - ncurses-devel.i686
+    - libaio.i686
+    - libaio-devel.i686
 
 - name: enable nfs-related services
   service:
