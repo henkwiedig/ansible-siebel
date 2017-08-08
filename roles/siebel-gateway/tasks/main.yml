@@ -71,12 +71,13 @@
     dest: "{{siebel_base_path}}/gw/Siebel/jre"
     state: link
 
-- name: start gateway
-  shell : "{{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/startup.sh"
+- name: start tomcat
+  shell : "source /home/siebel/.bash_profile && {{siebel_base_path}}/gw/Siebel/applicationcontainer/bin/startup.sh"
   become: true
   become_user: siebel
   become_method: su
   args:
+    chdir: "{{siebel_base_path}}/gw/Siebel/applicationcontainer"
     executable: "/usr/bin/bash"
 
 - name: wait for tomcat to start

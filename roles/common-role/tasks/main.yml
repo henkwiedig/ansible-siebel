@@ -71,6 +71,8 @@
   blockinfile:
     path: /home/siebel/.bash_profile
     create: yes
+    owner: siebel
+    group: sse_role
     block: |
        # Oracle Settings
        TMP={{siebel_base_path}}/tmp; export TMP
@@ -99,6 +101,8 @@
   blockinfile:
     path: /home/oracle/.bash_profile
     create: yes
+    owner: oracle
+    group: oinstall
     block: |
       # Oracle Settings
       TMP={{oracle_base_path}}/tmp; export TMP
