@@ -29,7 +29,6 @@
     src: roles/siebel-gateway/files/siebel-{{siebel_version}}-install-gw.rsp.j2
     dest: /tmp/siebel-{{siebel_version}}-install-gw.rsp
 
-#TODO create chain of trust
 - name: install gateway
   shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-gw.rsp -jreloc {{java_home}} -invPtrLoc {{siebel_base_path}}/gw/oraInventory/oraInst.loc"
   become: true
@@ -151,7 +150,7 @@
     return_content: yes
     timeout: 120
     body: 
-      registryPort: "2320"
+      registryPort: "2322"
       registryUserName: "sadmin"
       registryPassword: "nimdas"
       PrimaryLanguage: "enu"

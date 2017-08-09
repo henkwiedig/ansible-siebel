@@ -29,7 +29,7 @@
   template: 
     src: roles/siebel-ai/files/siebel-{{siebel_version}}-install-ai.rsp.j2
     dest: /tmp/siebel-{{siebel_version}}-install-ai.rsp
-#TODO create chain of trust
+
 - name: install appinterface
   shell : "source /home/siebel/.bash_profile && ./runInstaller -silent -waitforcompletion -responseFile /tmp/siebel-{{siebel_version}}-install-ai.rsp -jreloc {{java_home}} -invPtrLoc {{siebel_base_path}}/ai/oraInventory/oraInst.loc"
   become: true
