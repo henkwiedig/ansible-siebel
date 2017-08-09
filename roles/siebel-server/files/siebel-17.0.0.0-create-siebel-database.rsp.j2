@@ -19,7 +19,7 @@ first_step=SiebelServerRootDbsrvrRoot
 Grantee=SSE_ROLE
 GrantstatPromptName=The GRANTUSR.SQL script must first be run by the database administrator (DBA) in order to  create the necessary Siebel users and roles before continuing.
 
-HostName=md1lrhenk
+HostName={{ansible_hostname}}
 IdCentricRoot=IdCentricRoot
 ImprepFileName={{siebel_base_path}}/ses/Siebel/ses/dbsrvr/common/mstrep.dat
 IndexSpace=SINDEX

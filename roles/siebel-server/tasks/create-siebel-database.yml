@@ -55,7 +55,7 @@
     chdir: "{{siebel_base_path}}/ses/Siebel/ses/config"
     executable: "/usr/bin/bash"
     creates: "{{siebel_base_path}}/ses/Siebel/ses/siebsrvr/bin/master_install.ucf"
-    
+#TODO fix mstrep.dat    
 - name: create siebel database
   shell : "source /home/siebel/.bash_profile && source {{siebel_base_path}}/ses/Siebel/ses/siebsrvr/dbenv.sh && ./srvrupgwiz /m master_install.ucf"
   become: true
