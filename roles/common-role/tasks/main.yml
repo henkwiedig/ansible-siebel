@@ -200,3 +200,5 @@
     - local_policy.jar
     - US_export_policy.jar
   when: ansible_distribution != "AIX"
+
+- include: create-pki.yml

@@ -1,0 +1,71 @@
+- name: create pki folder
+  file:
+    path: "{{siebel_base_path}}/pki"
+    state: directory
+    
+- name: create serial.txt    
+  template:
+    src : files/serial.txt.j2
+    dest: "{{siebel_base_path}}/pki/serial.txt"
+    force: no
+    
+- name: Creating a Certificate Authority
+  command: "openssl req -new -passout env:PASSWORD -keyout {{siebel_base_path}}/pki/ca_private_key_file.pem -out {{siebel_base_path}}/pki/ca.csr -subj \"/CN={{ansible_hostname}}\""
+  args:
+    creates: "{{siebel_base_path}}/pki/ca_private_key_file.pem"
+  environment:
+    PASSWORD: "password"
+
+- name: Signing the Certificate Authority Certificate
+  command: "openssl x509 -passin pass:password -signkey {{siebel_base_path}}/pki/ca_private_key_file.pem -req -days 3650 -in {{siebel_base_path}}/pki/ca.csr -out {{siebel_base_path}}/pki/ca.cer -extensions v3_ca"
+  args:
+    creates: "{{siebel_base_path}}/pki/ca.cer"
+    
+- name: Creating a New Keystore
+  shell: "{{java_home}}/bin/keytool -genkey -alias foo -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password -keypass password -keyalg RSA -sigalg SHA1withRSA -dname \"CN=foo\" && {{java_home}}/bin/keytool -delete -alias foo -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password"
+  args:
+    creates: "{{siebel_base_path}}/pki/keystore.jks"
+  
+- name: Cretate new key
+  command: "{{java_home}}/bin/keytool -genkey -alias {{ansible_hostname}} -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password -keypass password -keyalg RSA -sigalg SHA1withRSA -dname \"CN={{ansible_hostname}}\""
+  register: command_result
+  changed_when:
+    - '"already exists" not in command_result.stdout'
+  failed_when: 
+    - '"already exists" not in command_result.stdout'
+    - command_result.rc != 0
+
+- name: Creating a Certificate Signing Request
+  command: "{{java_home}}/bin/keytool -certreq -storepass password -keypass password -alias {{ansible_hostname}} -keystore {{siebel_base_path}}/pki/keystore.jks -file {{siebel_base_path}}/pki/{{ansible_hostname}}.csr"
+  args:
+    creates: "{{siebel_base_path}}/pki/{{ansible_hostname}}.csr"
+
+- name: Signing the Certificate Request
+  command: "openssl x509 -passin pass:password -CA {{siebel_base_path}}/pki/ca.cer -CAkey {{siebel_base_path}}/pki/ca_private_key_file.pem -CAserial {{siebel_base_path}}/pki/serial.txt -req -in {{siebel_base_path}}/pki/{{ansible_hostname}}.csr -out {{siebel_base_path}}/pki/{{ansible_hostname}}.cer -days 365"
+  args:
+    creates: "{{siebel_base_path}}/pki/{{ansible_hostname}}.cer"
+  environment:
+    PASSWORD: "password"
+    
+- name: Adding the CA Certificate to the Keystore
+  command: "{{java_home}}/bin/keytool -import -noprompt -alias CA -file {{siebel_base_path}}/pki/ca.cer -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password"
+  register: command_result
+  changed_when:
+    - '"already exists" not in command_result.stdout'
+  failed_when: 
+    - '"already exists" not in command_result.stdout'
+    - '"Certificate was added to keystore" not in command_result.stderr'
+
+- name: Adding the Certificate to the Keystore
+  command: "{{java_home}}/bin/keytool -import -alias {{ansible_hostname}} -file {{siebel_base_path}}/pki/{{ansible_hostname}}.cer -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password"
+  register: command_result
+  changed_when:
+    - '"Certificate reply and certificate in keystore are identical" not in command_result.stdout'
+  failed_when: 
+    - '"Certificate reply was installed in keystore" not in command_result.stderr'
+    - '"Certificate reply and certificate in keystore are identical" not in command_result.stdout'
+    
+- name: Create the Truststore
+  command: "{{java_home}}/bin/keytool -import -noprompt -alias CA -file {{siebel_base_path}}/pki/ca.cer -keystore {{siebel_base_path}}/pki/truststore.jks -storepass password"
+  args:
+    creates: "{{siebel_base_path}}/pki/truststore.jks"
