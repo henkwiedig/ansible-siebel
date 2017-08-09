@@ -28,6 +28,8 @@
   
 - name: Cretate new key
   command: "{{java_home}}/bin/keytool -genkey -alias {{ansible_hostname}} -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password -keypass password -keyalg RSA -sigalg SHA1withRSA -dname \"CN={{ansible_hostname}}\""
+  environment: 
+    LANG: C
   register: command_result
   changed_when:
     - '"already exists" not in command_result.stdout'
@@ -49,6 +51,8 @@
     
 - name: Adding the CA Certificate to the Keystore
   command: "{{java_home}}/bin/keytool -import -noprompt -alias CA -file {{siebel_base_path}}/pki/ca.cer -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password"
+  environment: 
+    LANG: C
   register: command_result
   changed_when:
     - '"already exists" not in command_result.stdout'
@@ -58,6 +62,8 @@
 
 - name: Adding the Certificate to the Keystore
   command: "{{java_home}}/bin/keytool -import -alias {{ansible_hostname}} -file {{siebel_base_path}}/pki/{{ansible_hostname}}.cer -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password"
+  environment: 
+    LANG: C
   register: command_result
   changed_when:
     - '"Certificate reply and certificate in keystore are identical" not in command_result.stdout'
