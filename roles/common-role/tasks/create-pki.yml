@@ -10,7 +10,7 @@
     force: no
     
 - name: Creating a Certificate Authority
-  command: "openssl req -new -passout env:PASSWORD -keyout {{siebel_base_path}}/pki/ca_private_key_file.pem -out {{siebel_base_path}}/pki/ca.csr -subj \"/CN={{ansible_hostname}}\""
+  command: "openssl req -new -passout env:PASSWORD -keyout {{siebel_base_path}}/pki/ca_private_key_file.pem -out {{siebel_base_path}}/pki/ca.csr -subj \"/CN={{ansible_fqdn}}\""
   args:
     creates: "{{siebel_base_path}}/pki/ca_private_key_file.pem"
   environment:
@@ -27,7 +27,7 @@
     creates: "{{siebel_base_path}}/pki/keystore.jks"
   
 - name: Cretate new key
-  command: "{{java_home}}/bin/keytool -genkey -alias {{ansible_hostname}} -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password -keypass password -keyalg RSA -sigalg SHA1withRSA -dname \"CN={{ansible_hostname}}\""
+  command: "{{java_home}}/bin/keytool -genkey -alias {{ansible_fqdn}} -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password -keypass password -keyalg RSA -sigalg SHA1withRSA -dname \"CN={{ansible_fqdn}}\""
   environment: 
     LANG: C
   register: command_result
@@ -38,14 +38,14 @@
     - command_result.rc != 0
 
 - name: Creating a Certificate Signing Request
-  command: "{{java_home}}/bin/keytool -certreq -storepass password -keypass password -alias {{ansible_hostname}} -keystore {{siebel_base_path}}/pki/keystore.jks -file {{siebel_base_path}}/pki/{{ansible_hostname}}.csr"
+  command: "{{java_home}}/bin/keytool -certreq -storepass password -keypass password -alias {{ansible_fqdn}} -keystore {{siebel_base_path}}/pki/keystore.jks -file {{siebel_base_path}}/pki/{{ansible_fqdn}}.csr"
   args:
-    creates: "{{siebel_base_path}}/pki/{{ansible_hostname}}.csr"
+    creates: "{{siebel_base_path}}/pki/{{ansible_fqdn}}.csr"
 
 - name: Signing the Certificate Request
-  command: "openssl x509 -passin pass:password -CA {{siebel_base_path}}/pki/ca.cer -CAkey {{siebel_base_path}}/pki/ca_private_key_file.pem -CAserial {{siebel_base_path}}/pki/serial.txt -req -in {{siebel_base_path}}/pki/{{ansible_hostname}}.csr -out {{siebel_base_path}}/pki/{{ansible_hostname}}.cer -days 365"
+  command: "openssl x509 -passin pass:password -CA {{siebel_base_path}}/pki/ca.cer -CAkey {{siebel_base_path}}/pki/ca_private_key_file.pem -CAserial {{siebel_base_path}}/pki/serial.txt -req -in {{siebel_base_path}}/pki/{{ansible_fqdn}}.csr -out {{siebel_base_path}}/pki/{{ansible_fqdn}}.cer -days 365"
   args:
-    creates: "{{siebel_base_path}}/pki/{{ansible_hostname}}.cer"
+    creates: "{{siebel_base_path}}/pki/{{ansible_fqdn}}.cer"
   environment:
     PASSWORD: "password"
     
@@ -61,7 +61,7 @@
     - '"Certificate was added to keystore" not in command_result.stderr'
 
 - name: Adding the Certificate to the Keystore
-  command: "{{java_home}}/bin/keytool -import -alias {{ansible_hostname}} -file {{siebel_base_path}}/pki/{{ansible_hostname}}.cer -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password"
+  command: "{{java_home}}/bin/keytool -import -alias {{ansible_fqdn}} -file {{siebel_base_path}}/pki/{{ansible_fqdn}}.cer -keystore {{siebel_base_path}}/pki/keystore.jks -storepass password"
   environment: 
     LANG: C
   register: command_result

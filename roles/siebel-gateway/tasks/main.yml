@@ -96,7 +96,7 @@
     body_format: json
     return_content: yes
     body: 
-      CGHostURI: "{{ansible_hostname}}:8091"
+      CGHostURI: "{{ansible_fqdn}}:8091"
   environment:
     https_proxy: ""
   register: gw_initial_setup
@@ -118,7 +118,7 @@
         DataSources:
           - Name: "orcl"
             Type: "DB"
-            Host: "{{ansible_hostname}}"
+            Host: "{{ansible_fqdn}}"
             Port: 1521
             SqlStyle: "Oracle"
             Endpoint: "orcl"
