@@ -25,6 +25,8 @@
     - ncurses-devel.i686
     - libaio.i686
     - libaio-devel.i686
+    - libX11.i686
+    - libXext.i686
 
 - name: enable nfs-related services
   service:
