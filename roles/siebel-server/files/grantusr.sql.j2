@@ -27,6 +27,11 @@ grant sse_role to GUESTCP;
 alter user GUESTCP default tablespace SDATA;
 alter user GUESTCP temporary tablespace TEMP;
 
+create user GUESTCST identified by guestcst;
+grant sse_role to GUESTCST;
+alter user GUESTCST default tablespace SDATA;
+alter user GUESTCST temporary tablespace TEMP;
+
 create user GUESTERM identified by guesterm;
 grant sse_role to GUESTERM;
 alter user GUESTERM default tablespace SDATA;

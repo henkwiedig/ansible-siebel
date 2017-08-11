@@ -1,0 +1,353 @@
+--- 
+# Playbook for Creating a Siebel Enterpise via SMC
+- hosts: siebel-server
+
+  tasks:
+    - name: initial setup
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cginfo"
+        force_basic_auth: yes
+        user: sadmin
+        password: sadmin
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        body: 
+          CGHostURI: "{{ansible_fqdn}}:8091"
+      environment:
+        https_proxy: ""
+      register: initial_setup
+      
+    - name: GatewaySecurityProfile
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/GatewaySecurityProfile"
+        force_basic_auth: yes
+        user: sadmin
+        password: sadmin
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        body: 
+          Profile:
+            ProfileName: Siebel
+          SecurityConfigParams:
+            DataSources:
+              - Name: "orcl"
+                Type: "DB"
+                Host: "{{ansible_fqdn}}"
+                Port: 1521
+                SqlStyle: "Oracle"
+                Endpoint: "orcl"
+                TableOwner: "SIEBEL"
+                HashUserPwd: false
+                HashAlgorithm: "SHA1"
+                CRC: ""
+            SecAdptName: "DBSecAdpt"
+            SecAdptMode: "DB"
+            NSAdminRole: 
+              - "Siebel Administrator"
+            TestUserName: "sadmin"
+            TestUserPwd: "nimdas"
+            DBSecurityAdapterDataSource: "orcl"
+            DBSecurityAdapterPropagateChange: false
+      environment:
+        https_proxy: ""
+      register: GatewaySecurityProfile
+    
+    - name: bootstrapCG
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/bootstrapCG"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        timeout: 120
+        body: 
+          registryPort: "2322"
+          registryUserName: "sadmin"
+          registryPassword: "nimdas"
+          PrimaryLanguage: "enu"
+      environment:
+        https_proxy: ""
+      register: bootstrapCG
+    
+    - name: create enterprise Profile
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/profiles/enterprises/"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        timeout: 120
+        body: 
+          EnterpriseConfigParams:
+            ServerFileSystem: "{{siebel_base_path}}/sfs"
+            UserName: "sadmin"
+            Password: "nimdas"
+            DatabasePlatform: "Oracle"
+            DBConnectString: "orcl"
+            DBUsername: "sadmin"
+            DBUserPasswd: "nimdas"
+            TableOwner: "SIEBEL"
+            SecAdptProfileName: "Gateway"
+            PrimaryLanguage: "enu"
+            Encrypt: "SISNAPITLS"
+            CACertFileName: "{{siebel_base_path}}/pki/truststore.jks"
+            KeyFileName: "{{siebel_base_path}}/pki/keystore.jks"
+            KeyFilePassword: "password"
+            PeerAuth: true
+            PeerCertValidation: true
+          Profile:
+            ProfileName: "Siebel"
+      environment:
+        https_proxy: ""
+      register: create_enterprise_profile
+    
+    - name: create Server Profile
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/profiles/servers/"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        timeout: 120
+        body: 
+          ServerConfigParams:
+            Username: "sadmin"
+            Password: "nimdas"
+            AnonLoginUserName: "GUESTCST"
+            AnonLoginPassword: "guestcst"
+            EnableCompGroupsSIA: "communications"
+            SCBPort: "2321"
+            LocalSynchMgrPort: "40400"
+            ModifyServerEncrypt: true
+            ModifyServerAuth: true
+            Encrypt: "SISNAPITLS"
+            CertFileNameServer: "/opt/siebel/pki/keystore.jks"
+            CACertFileName: "password"
+            ClusteringEnvironmentSetup: "NotClustered"
+            UseOracleConnector: "true"
+          Profile:
+            ProfileName: "Default_Server_Profile"
+      environment:
+        https_proxy: ""
+      register: create_server_profile
+
+    - name: create AI Profile
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/profiles/swsm/"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        timeout: 120
+        body:
+          ConfigParam:
+            defaults:
+              DoCompression: true
+              EnableFQDN: false
+              AuthenticationProperties:
+                SessionTimeout: 900
+                GuestSessionTimeout: 300
+                SessionTimeoutWLMethod: HeartBeat
+                SessionTimeoutWLCommand: UpdatePrefMsg
+                SessionTokenMaxAge: 2880
+                SessionTokenTimeout: 900
+                SingleSignOn: false
+                AnonUserName: GUESTCST
+                AnonPassword: guestcst
+            RESTInBound:
+              RESTAuthenticationProperties:
+                AnonUserName: GUESTCST
+                AnonPassword: guestcst
+                AuthenticationType: Basic
+                SessKeepAlive: 10
+                ValidateCertificate: true
+              LogProperties:
+                LogLevel: ERROR
+              ObjectManager: ecommunicationsobjmgr_enu
+              Baseuri: http://<hostname>/siebel/v1.0/
+              MaxConnections: 20
+              MinConnections: '10'
+              RESTResourceParamList: []
+            UI:
+              LogProperties:
+                LogLevel: ERROR
+            EAI:
+              LogProperties:
+                LogLevel: ERROR
+            DAV:
+              LogProperties:
+                LogLevel: ERROR
+            RESTOutBound:
+              LogProperties:
+                LogLevel: ERROR
+            SOAPOutBound:
+              LogProperties:
+                LogLevel: ERROR
+            Applications:
+            - Name: ecomm
+              ObjectManager: ecommunicationsobjmgr_enu
+              Language: enu
+              StartCommand: ''
+              EnableExtServiceOnly: false
+              AvailableInSiebelMobile: false
+              AuthenticationProperties:
+                SessionTimeout: 900
+                GuestSessionTimeout: 300
+                SessionTimeoutWLMethod: HeartBeat
+                SessionTimeoutWLCommand: UpdatePrefMsg
+                SessionTokenMaxAge: 2880
+                SessionTokenTimeout: 900
+                SingleSignOn: false
+                AnonUserName: GUESTCST
+                AnonPassword: guestcst
+            RESTInBoundResource:
+            - ResourceType: Data
+              RESTResourceParamList: []
+            swe:
+              Language: ENU
+              MaxQueryStringLength: -1
+              SeedFile: ''
+              SessionMonitor: false
+              AllowStats: true
+          Profile:
+            ProfileName: Default_AI_Profile
+      environment:
+        https_proxy: ""
+      register: create_ai_profile
+
+    
+    
+    - name: deploy enterprise
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/deployments/enterprises/"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        timeout: 120
+        body:
+          DeploymentInfo:
+            ProfileName: Siebel
+            Action: Deploy
+          EnterpriseDeployParams:
+            SiebelEnterprise: SBA_82
+            EnterpriseDesc: SBA_82 Enterprise
+      environment:
+        https_proxy: ""
+      register: deploy_enterprise 
+
+    - name: check enterprise deploy status
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/deployments/enterprises/SBA_82"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: GET
+        return_content: yes
+        timeout: 120
+      environment:
+        https_proxy: ""
+      register: check_enterprise_deploy_status
+      until: ( check_enterprise_deploy_status.content | from_json).DeploymentInfo.Status == "Deployed"
+      retries: 60
+      delay: 10
+
+
+
+
+#TODO: Disable unneeded compdefs
+#deactivate component definition eChannelCMEObjMgr_enu     
+#deactivate component definition eCommWirelessObjMgr_enu   
+#deactivate component definition eCustomerCMEObjMgr_enu    
+#deactivate component definition eEnergyObjMgr_enu         
+#deactivate component definition eMediaObjMgr_enu          
+#deactivate component definition eEnergyOGCObjMgr_enu      
+#deactivate component definition eSalesCMEObjMgr_enu 
+
+    - name: deploy server
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/deployments/servers/"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        timeout: 600
+        body:
+          DeploymentInfo:
+            PhysicalHostIP: "{{ansible_fqdn}}:8101"
+            ProfileName: Default_Server_Profile
+            Action: Deploy
+          ServerDeployParams:
+            SiebelServer: Server1
+            SiebelServerDesc: Server 1 Description
+            DeployedLanguage: enu
+      environment:
+        https_proxy: ""
+      register: deploy_server 
+
+    - name: check server deploy status
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/deployments/servers/Server1"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: GET
+        return_content: yes
+        timeout: 120
+      environment:
+        https_proxy: ""
+      register: check_server_deploy_status
+      until: ( check_server_deploy_status.content | from_json).DeploymentInfo.Status == "Deployed"
+      retries: 60
+      delay: 10
+
+
+    - name: deploy ai
+      uri:
+        url: "https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/v1.0/cloudgateway/deployments/swsm/"
+        force_basic_auth: yes
+        user: sadmin
+        password: nimdas
+        validate_certs: no
+        method: POST
+        body_format: json
+        return_content: yes
+        timeout: 600
+        body:
+          DeploymentInfo:
+            PhysicalHostIP: "{{ansible_fqdn}}:8081"
+            ProfileName: Default_AI_Profile
+            Action: Deploy
+          DeploymentParam:
+            Node: ecomm
+            NodeDesc: ecomm Desc
+      environment:
+        https_proxy: ""
+      register: deploy_server
+
+    - debug: msg="Siebel SMC URL https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/smc"
+    - debug: msg="Siebel APP URL https://{{hostvars[groups['siebel-ai'][0]]['ansible_default_ipv4']['address']}}:8081/siebel/app/ecomm/enu"

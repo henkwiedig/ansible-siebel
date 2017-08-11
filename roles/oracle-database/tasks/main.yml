@@ -89,3 +89,5 @@
     path: /etc/rc.shutdown
     regexp: "^/etc/rc.oracle stop"
     line: "/etc/rc.oracle stop  > /dev/console 2>&1"
+
+- debug: msg="Oracle EM Express URL https://{{ansibel_fqdn}}:5500/em"
