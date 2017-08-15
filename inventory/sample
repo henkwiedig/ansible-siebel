@@ -1,0 +1,17 @@
+[repository-server]
+192.168.0.2 ansible_user=root
+
+[oracle-database]
+192.168.0.2 ansible_user=root
+
+[gateway-server]
+192.168.0.2 ansible_user=root
+
+[siebel-server]
+192.168.0.2 ansible_user=root
+
+[siebel-webtier]
+192.168.0.2 ansible_user=root
+
+[siebel-ai]
+192.168.0.2 ansible_user=root
